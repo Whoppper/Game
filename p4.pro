@@ -18,10 +18,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += $$PWD/inc
 
 SOURCES += \
+    src/Fiar.cpp \
+    src/FiarMove.cpp \
+    src/Human.cpp \
+    src/IA.cpp \
+    src/RandomAlgorithm.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
+    inc/AlgorithmInterface.h \
+    inc/Fiar.h \
+    inc/FiarMove.h \
+    inc/GameInterface.h \
+    inc/Human.h \
+    inc/IA.h \
+    inc/ModelFactory.h \
+    inc/MoveInterface.h \
+    inc/PlayerInterface.h \
+    inc/RandomAlgorithm.h \
     inc/mainwindow.h \
 
 
