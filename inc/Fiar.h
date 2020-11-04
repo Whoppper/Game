@@ -6,6 +6,8 @@
 constexpr int BOARD_WIDTH = 7;
 constexpr int BOARD_HEIGHT = 6;
 
+class MoveInterface;
+
 class Fiar : public GameInterface
 {
 public:
@@ -23,8 +25,11 @@ private:
     QVector<QVector<int>> _board;
     int _winner;
     bool _finished;
-    QVector<QSharedPointer<MoveInterface>> _history;
+    QVector<QSharedPointer<FiarMove>> _history;
     int _playerTurn;
+
+private:
+    bool isGameFinished(int lastMove);
 
 };
 
