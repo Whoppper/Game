@@ -11,6 +11,7 @@ class RandomAlgorithm : public AlgorithmInterface
 {
 public:
 
+    virtual ~RandomAlgorithm();
     virtual QSharedPointer<MoveInterface> start(QSharedPointer<GameInterface> game /* + timeAllowed from ia  */) override;
 };
 

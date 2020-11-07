@@ -7,6 +7,8 @@
 class GameInterface;
 class MoveInterface;
 
+// template AlgorithmInterface<MinMax>(game, time)
+
 class AlgorithmInterface
 {
 public:

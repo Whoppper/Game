@@ -13,9 +13,11 @@ class IA : public PlayerInterface
 {
 public:
 
+    virtual ~IA();
     IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm);
 
     virtual QSharedPointer<MoveInterface> getMove();
+    //void setGame(QSharedPointer<GameInterface> game);
 
 private:
     QThread *_thread;

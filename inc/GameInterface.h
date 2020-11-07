@@ -5,12 +5,15 @@
 #include <QPair>
 #include <QSharedPointer>
 
+
+
 constexpr int PLAYER_1 = 1;
 constexpr int PLAYER_2 = 2;
 constexpr int DRAW = 0;
 
 class FiarMove;
 class MoveInterface;
+class GameUI;
 
 class GameInterface
 {
@@ -20,6 +23,9 @@ public:
     virtual int eval() = 0;
     virtual void undo() = 0;
     virtual int getWinner() = 0;
+    virtual bool finish() = 0;
+    virtual void display(GameUI &ui) = 0;
+    virtual QSharedPointer<GameInterface> clone() = 0;
 
     virtual void play(FiarMove &move) {Q_UNUSED(move)};
 };

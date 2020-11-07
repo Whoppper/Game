@@ -3,14 +3,15 @@
 
 #include <QSharedPointer>
 
-class GameInterface;
+#include "GameInterface.h"
 class MoveInterface;
 
 class PlayerInterface
 {
 public:
-    PlayerInterface(QSharedPointer<GameInterface> game) : _game(game) {};
+    PlayerInterface(const QSharedPointer<GameInterface> game) : _game(game) {};
     virtual QSharedPointer<MoveInterface> getMove() = 0;
+    void setGame(QSharedPointer<GameInterface> game) {_game = game;}
 
 
 protected:

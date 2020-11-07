@@ -3,12 +3,9 @@
 #include "ModelFactory.h"
 #include "MoveInterface.h"
 #include "FiarMove.h"
+#include "GameUI.h"
 
 #include <QDebug>
-
-
-
-
 
 Fiar::Fiar() :
     _board(BOARD_HEIGHT, QVector<int>(BOARD_WIDTH, 0)) ,
@@ -19,6 +16,25 @@ Fiar::Fiar() :
 
 }
 
+Fiar::~Fiar()
+{
+
+}
+
+void Fiar::display(GameUI &ui)
+{
+    ui.displayGame(*this);
+}
+
+bool Fiar::finish()
+{
+    return _finished;
+}
+
+const QVector<QVector<int>> &Fiar::getBoard()
+{
+    return _board;
+}
 
 QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
 {
@@ -29,7 +45,8 @@ QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
     {
         if (_board[0][i] == 0)
         {
-            QSharedPointer<MoveInterface> move = ModelFactory::create<FiarMove>();
+            QSharedPointer<FiarMove> move = ModelFactory::create<FiarMove>();
+            move->setCol(i);
             moves.push_back(move);
         }
     }
@@ -60,9 +77,7 @@ void Fiar::play(FiarMove &move)
     _finished = isGameFinished(col);
     if (_finished)
         _winner = _playerTurn;
-    QSharedPointer<FiarMove> lastMove = ModelFactory::create<FiarMove>();
-    lastMove->setCol(col);
-    _history.push_back(lastMove);
+    _history.push_back(FiarMove(col));
 
     // check total moves played (for draw)
     if (_history.size() == BOARD_HEIGHT * BOARD_WIDTH && !_finished)
@@ -80,7 +95,7 @@ void Fiar::undo()
     _finished = false;
     _winner = -1;
     _playerTurn = 3 - _playerTurn;
-    int col = _history[_history.size() -1]->col();
+    int col = _history[_history.size() -1].col();
     _history.pop_back();
     int i = 0;
     while (i < BOARD_HEIGHT && _board[i][col] != _playerTurn)
@@ -100,6 +115,19 @@ int Fiar::getWinner()
     if (!_finished)
         return -1;
     return _winner;
+}
+
+QSharedPointer<GameInterface> Fiar::clone()
+{
+
+    Fiar *fiar = new Fiar();
+    fiar->_playerTurn = _playerTurn;
+    fiar->_finished = _finished;
+    fiar->_board = _board;
+    fiar->_winner = _winner;
+    fiar->_history = _history;
+    QSharedPointer<GameInterface> cpy(fiar);
+    return cpy;
 }
 
 
@@ -191,4 +219,7 @@ bool Fiar::isGameFinished(int col)
 
     return false;
 }
+
+
+
 

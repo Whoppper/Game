@@ -3,14 +3,13 @@
 
 #include "GameInterface.h"
 
-class Fiar;
 
 class MoveInterface
 {
 public:
 
-    virtual void playInGame(Fiar &fiar) {Q_UNUSED(fiar)};
-
+    //virtual void playInGame(Fiar &fiar) {Q_UNUSED(fiar)};
+    virtual void playInGame(QSharedPointer<GameInterface> game) {Q_UNUSED(game)};
     virtual ~MoveInterface() {};
 
 };
