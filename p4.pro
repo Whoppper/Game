@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += $$PWD/inc
 
 SOURCES += \
+    src/HumanAction.cpp \
     src/GameController.cpp \
     src/GameUI.cpp \
     src/Fiar.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     inc/FiarMove.h \
     inc/GameInterface.h \
     inc/Human.h \
+    inc/HumanAction.h \
     inc/IA.h \
     inc/ModelFactory.h \
     inc/MoveInterface.h \

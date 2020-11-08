@@ -4,6 +4,8 @@
 #include "GameInterface.h"
 #include "MoveInterface.h"
 
+#include <QDebug>
+
 
 IA::IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm) :
 PlayerInterface(game), _algorithm(algorithm)
@@ -11,10 +13,11 @@ PlayerInterface(game), _algorithm(algorithm)
 
 }
 
-QSharedPointer<MoveInterface> IA::getMove()
+void IA::think()
 {
+    qDebug() << "IA::think()";
     QSharedPointer<MoveInterface> move = _algorithm->start(_game);
-    return move;
+    emit sendMove(move);
 }
 
 IA::~IA()

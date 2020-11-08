@@ -8,8 +8,8 @@ class MoveInterface
 {
 public:
 
-    //virtual void playInGame(Fiar &fiar) {Q_UNUSED(fiar)};
-    virtual void playInGame(QSharedPointer<GameInterface> game) {Q_UNUSED(game)};
+    virtual void playInGame(QSharedPointer<GameInterface> game) {Q_UNUSED(game)}; // =0 ?
+    virtual bool isValidMove(QSharedPointer<GameInterface> game) {Q_UNUSED(game);return false;};// =0 ?
     virtual ~MoveInterface() {};
 
 };

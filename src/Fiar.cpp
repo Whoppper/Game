@@ -6,6 +6,18 @@
 #include "GameUI.h"
 
 #include <QDebug>
+#include <QPoint>
+
+namespace
+{
+    int getColumnFromPosition(QPoint position)
+    {
+        qDebug() << position.x() << "  ;   " << position.y();
+        int col = position.x() / 70;
+        qDebug() << col;
+        return col;
+    }
+}
 
 Fiar::Fiar() :
     _board(BOARD_HEIGHT, QVector<int>(BOARD_WIDTH, 0)) ,
@@ -19,6 +31,15 @@ Fiar::Fiar() :
 Fiar::~Fiar()
 {
 
+}
+
+int Fiar::getMinimumWidth()
+{
+    return BOARD_WIDTH * 70;
+}
+int Fiar::getMinimumHeight()
+{
+    return BOARD_HEIGHT * 70;
 }
 
 void Fiar::display(GameUI &ui)
@@ -36,6 +57,32 @@ const QVector<QVector<int>> &Fiar::getBoard()
     return _board;
 }
 
+QSharedPointer<MoveInterface> Fiar::extractMove(QVector<HumanAction> &actions)
+{
+    qDebug() << "Fiar::extractMove  " << actions.size();
+    for (int i = 0; i < actions.size(); i++)
+    {
+        if (actions[i].action == ActionType::MOUSE_PRESS)
+        {
+            QSharedPointer<FiarMove> move = ModelFactory::create<FiarMove>();
+            int col = getColumnFromPosition(actions[i].position);
+            move->setCol(col);
+            actions.clear();
+            return move;
+        }
+    }
+    actions.clear();
+    return Q_NULLPTR;
+}
+
+bool Fiar::isLegalMove(FiarMove &move)
+{
+    int col = move.col();
+    if (_finished || _board[0][col] != 0)
+        return false;
+    return true;
+}
+
 QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
 {
     QVector<QSharedPointer<MoveInterface>> moves;
@@ -51,6 +98,11 @@ QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
         }
     }
     return moves;
+}
+
+int Fiar::playerTurn()
+{
+    return _playerTurn;
 }
 
 int Fiar::eval()
@@ -137,7 +189,6 @@ bool Fiar::isGameFinished(int col)
     int row = 0;
     while (row < BOARD_HEIGHT && _board[row][col] == 0)
         row++;
-    row--;
 
     // check row
     int tmprow = row;
@@ -154,7 +205,7 @@ bool Fiar::isGameFinished(int col)
         tmpcol++;
         totalAlign++;
     }
-    if (totalAlign == 4)
+    if (totalAlign >= 4)
         return true;
 
     // check col
@@ -172,7 +223,7 @@ bool Fiar::isGameFinished(int col)
         tmprow++;
         totalAlign++;
     }
-    if (totalAlign == 4)
+    if (totalAlign >= 4)
         return true;
 
     // check d1
@@ -193,7 +244,7 @@ bool Fiar::isGameFinished(int col)
         tmpcol++;
         totalAlign++;
     }
-    if (totalAlign == 4)
+    if (totalAlign >= 4)
         return true;
 
     // check d2
@@ -214,7 +265,7 @@ bool Fiar::isGameFinished(int col)
         tmpcol--;
         totalAlign++;
     }
-    if (totalAlign == 4)
+    if (totalAlign >= 4)
         return true;
 
     return false;

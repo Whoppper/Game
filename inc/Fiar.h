@@ -18,12 +18,18 @@ public:
 
     virtual QVector<QSharedPointer<MoveInterface>> getMoves() override;
     virtual int eval() override;
-    virtual void play(FiarMove &move) override;
     virtual void undo() override;
     virtual bool finish() override;
     virtual int getWinner() override;
+    virtual int getMinimumWidth() override;
+    virtual int getMinimumHeight() override;
     virtual void display(GameUI &ui) override;
     virtual QSharedPointer<GameInterface> clone() override;
+    virtual int playerTurn() override;
+    virtual QSharedPointer<MoveInterface> extractMove(QVector<HumanAction> &actions) override;
+
+    virtual void play(FiarMove &move) override;
+    virtual bool isLegalMove(FiarMove &move) override;
 
     const QVector<QVector<int>> &getBoard();
 

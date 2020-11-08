@@ -8,6 +8,7 @@
 
 class PlayerInterface;
 class GameInterface;
+class MoveInterface;
 
 class GameController : public QObject
 {
@@ -15,18 +16,21 @@ class GameController : public QObject
 public:
 
     explicit GameController(QObject *parent = nullptr);
-
-    void addPlayer(QSharedPointer<PlayerInterface> player);
+    void setGame(QSharedPointer<GameInterface> game);
+    void startGame();
 
 signals:
+    void gameChanged();
+
+public slots:
+    void addPlayer(QSharedPointer<PlayerInterface> player);
+    void moveReceived(QSharedPointer<MoveInterface> move);
 
 
 private:
     QVector<QSharedPointer<PlayerInterface>> _players;
-    //QScopedPointer<GameInterface> _game;
-
-
-
+    QSharedPointer<GameInterface> _game;
+    bool _gameInProgress;
 
 };
 

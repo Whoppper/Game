@@ -13,10 +13,10 @@ FiarMove::FiarMove(int col) : _col(col)
 
 }
 
-/*void FiarMove::playInGame(Fiar &fiar)
+bool FiarMove::isValidMove(QSharedPointer<GameInterface> game)
 {
-    fiar.play(*this);
-}*/
+    return game->isLegalMove(*this);
+}
 
 void FiarMove::playInGame(QSharedPointer<GameInterface> game)
 {

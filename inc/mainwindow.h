@@ -3,7 +3,11 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include "GameUI.h"
+#include <QSharedPointer>
+
+class GameUI;
+class GameController;
+class GameInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -18,8 +22,11 @@ private slots:
 
 private:
     
-    GameUI *_ui;
-    QPushButton *_button;
+    //QSharedPointer<GameUI> _ui;
+    //QSharedPointer<GameController> _controller;
     QSharedPointer<GameInterface> _game;
+    GameUI *_ui;
+    GameController *_controller;
+
 };
 #endif // MAINWINDOW_H
