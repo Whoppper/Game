@@ -7,7 +7,7 @@
 
 // TODO CHANGER LE PLAYER TURN
 
-GameController::GameController(QObject *parent) : QObject(parent), _gameInProgress(false)
+GameController::GameController(QObject *parent) : QObject(parent), _gameInProgress(false), _playerTurn(1)
 {
 
 }
@@ -31,10 +31,13 @@ void GameController::setGame(QSharedPointer<GameInterface> game)
 
 void GameController::startGame()
 {
-    _gameInProgress = true;
-
-    _players[0]->setGame(_game->clone());
-    _players[0]->think();
+    qDebug() << "GameController::startGame()" << _players.size();
+    if (_players.size() > 0)
+    {
+        _gameInProgress = true;
+        _players[0]->setGame(_game->clone());
+        _players[0]->think();
+    }
 }
 
 void GameController::moveReceived(QSharedPointer<MoveInterface> move)
@@ -44,11 +47,16 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
     {
         return ;
     }
-   PlayerInterface * player = qobject_cast<PlayerInterface *>(sender());
-   if( player != Q_NULLPTR )
-   {
-        if (_game->playerTurn() == player->PlayerNum() && move->isValidMove(_game))
+    int indexActualPlayer = _playerTurn - 1;
+    qDebug() << "indexActualPlayer;" << indexActualPlayer << " " <<  _playerTurn;
+    PlayerInterface * player = qobject_cast<PlayerInterface *>(sender());
+    if( player != Q_NULLPTR )
+    {
+        qDebug() << player;
+        qDebug() << _players[indexActualPlayer].get();
+        if (_players[indexActualPlayer] == player && move->isValidMove(_game))
         {
+            qDebug() << "emit gameChanged();";
             move->playInGame(_game);
             emit gameChanged();
             if (_game->finish())
@@ -57,15 +65,17 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
                 qDebug() << "winner: " << _game->getWinner();
                 return ;
             }
-            int playerTurn = _game->playerTurn() -1;
-            if (playerTurn < _players.size())
+           _playerTurn = _playerTurn + 1 > _players.size() ? 1 : _playerTurn + 1;
+           indexActualPlayer = _playerTurn - 1;
+           qDebug() << "indexActualPlayer: " << indexActualPlayer;
+            if (indexActualPlayer < _players.size())
             {
-                // TODO for each player (online mode) avec le signal gameChanged
-                _players[playerTurn]->setGame(_game->clone());
+                // TODO pour chaque player avec le signal gameChanged
+                _players[indexActualPlayer]->setGame(_game->clone());
                 //
 
-                qDebug() << "player: " << playerTurn << " is thinking";
-                _players[playerTurn]->think();
+                qDebug() << "player: " << _playerTurn << " is thinking";
+                _players[indexActualPlayer]->think();
             }
             else
                 qWarning() << "GameController::moveReceived error player turn;";

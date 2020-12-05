@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include <QDebug>
+#include <QThread>
+#include <QAction>
+#include <QPushButton>
 
 #include "MoveInterface.h"
 #include "GameInterface.h"
@@ -13,53 +16,76 @@
 #include "ModelFactory.h"
 #include "Fiar.h"
 #include <QBoxLayout>
-
-#include <QThread>
-#include <QPushButton>
-
 #include "GameUI.h"
+#include "NewGameDialog.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    _menuFile = Q_NULLPTR;
+    _newGame = Q_NULLPTR;;
+    _startGame = Q_NULLPTR;
+    _game = Q_NULLPTR;
+    _gameDialog = QSharedPointer<NewGameDialog> ( new NewGameDialog());
     setMinimumSize(800, 600);
-    QWidget *centralWidget = new QWidget(); // no delete needed
-    QHBoxLayout *hlayout = new QHBoxLayout(); // no delete needed
-    hlayout->setAlignment(Qt::AlignTop);
-    centralWidget->setLayout(hlayout);
+
+    QWidget *centralWidget = new QWidget();
+    _hlayout = new QHBoxLayout();
+    _hlayout->setAlignment(Qt::AlignTop);
+    centralWidget->setLayout(_hlayout);
     setCentralWidget(centralWidget);
 
-    _game= ModelFactory::create<Fiar>();
-    _ui = new GameUI(this, _game); // no delete needed
+    _ui = QSharedPointer<GameUI> (new GameUI(this));
+    _controller = QSharedPointer<GameController> (new GameController(this));
 
-    _controller = new GameController(this);
-    QSharedPointer<AlgorithmInterface> algop1 = ModelFactory::create<RandomAlgorithm>();
-    Human *human = new Human(_game->clone());
-    IA *ia = new IA(_game->clone(), algop1);
-    QSharedPointer<PlayerInterface> p1 (ia);
-    QSharedPointer<PlayerInterface> p2 (human);
-    _controller->addPlayer(p1);
-    _controller->addPlayer(p2);
-    _controller->setGame(_game);
-
-    connect(_ui, &GameUI::newHumanAction, human, &Human::onHumanPlay);
-    connect(_controller, &GameController::gameChanged, _ui, &GameUI::needToRefresh);
-    connect(ia, &IA::sendMove, _controller, &GameController::moveReceived );
-    connect(human, &Human::sendMove, _controller, &GameController::moveReceived );
-
-    QPushButton *_button = new QPushButton("GO", this); // no delete needed
-    hlayout->addWidget(_ui);
-    hlayout->addWidget(_button);
-    connect(_button, &QPushButton::clicked, this, &MainWindow::startGame);
-}
-
-void MainWindow::startGame(int)
-{
-    _controller->startGame();
+    connect(_controller.get(), &GameController::gameChanged, _ui.get(), &GameUI::needToRefresh);
+    setMenus();
 }
 
 MainWindow::~MainWindow()
 {
-    
+
 }
 
+void MainWindow::newGame()
+{
+    if (_gameDialog->exec() == QDialog::Accepted)
+    {
+       _game =  _gameDialog->game();
+       _controller->setGame(_game);
+       _ui->setGame(_game);
+       QVector<QSharedPointer<PlayerInterface>> players = _gameDialog->players();
+       for (int i = 0; i < players.size(); i++)
+       {
+           players[i]->setConnection(_ui, _controller);
+           _controller->addPlayer(players[i]);
+       }
+       qDebug() << "MainWindow::newGame()  controller->startGame();";
+       _controller->startGame();
+    }
+
+}
+
+
+void MainWindow::setMenus()
+{
+    _menuFile = new QMenu(tr("&File"), this);
+    _newGame = new QAction(tr("&New"), this);
+    _startGame = new QAction(tr("&Start"), this);
+    menuBar()->addMenu(_menuFile);
+    _menuFile->addAction(_newGame);
+    _menuFile->addAction(_startGame);
+
+    connect(_newGame, &QAction::triggered, this, &MainWindow::newGame);
+}
+
+QSharedPointer<GameInterface> MainWindow::game() const
+{
+    return _game;
+}
+
+void MainWindow::setGame(const QSharedPointer<GameInterface> &game)
+{
+    _game = game;
+}

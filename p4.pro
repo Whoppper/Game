@@ -25,6 +25,8 @@ SOURCES += \
     src/FiarMove.cpp \
     src/Human.cpp \
     src/IA.cpp \
+    src/ModelFactory.cpp \
+    src/NewGameDialog.cpp \
     src/RandomAlgorithm.cpp \
     src/main.cpp \
     src/mainwindow.cpp
@@ -43,7 +45,8 @@ HEADERS += \
     inc/PlayerInterface.h \
     inc/RandomAlgorithm.h \
     inc/mainwindow.h \ \
-    inc/GameController.h
+    inc/GameController.h \
+    inc/NewGameDialog.h
 
 
 # Default rules for deployment.

@@ -13,12 +13,14 @@ class GameUI : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GameUI(QWidget *parent = nullptr, QSharedPointer<GameInterface> game =nullptr);
+    GameUI(QWidget *parent = nullptr, QSharedPointer<GameInterface> game =nullptr);
     void displayGame(Fiar &fiar);
+    QSharedPointer<GameInterface> game() const;
+    void setGame(const QSharedPointer<GameInterface> &game);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
-    //TODO gerer les autres events
 
 public slots:
     void needToRefresh(/*GameInterface g*/);

@@ -15,12 +15,16 @@ class IA : public PlayerInterface
 public:
 
     virtual ~IA();
+    IA();
     IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm);
-
     virtual void think() override;
+    void setAlgorithm(const QSharedPointer<AlgorithmInterface> &algorithm);
+    virtual void setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller) override;
 
-signals:
-    void sendMove(QSharedPointer<MoveInterface> move);
+//signals:
+//    void sendMove(QSharedPointer<MoveInterface> move);
+
+
 
 
 

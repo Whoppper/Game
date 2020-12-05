@@ -17,6 +17,11 @@ QSharedPointer<MoveInterface> RandomAlgorithm::start(QSharedPointer<GameInterfac
     return moves[randMove];
 }
 
+RandomAlgorithm::RandomAlgorithm()
+{
+
+}
+
 
 RandomAlgorithm::~RandomAlgorithm()
 {

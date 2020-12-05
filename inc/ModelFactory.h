@@ -3,6 +3,10 @@
 
 #include <QSharedPointer>
 
+class AlgorithmInterface;
+class PlayerInterface;
+class GameInterface;
+
 class ModelFactory
 {
 public:
@@ -13,6 +17,8 @@ public:
         return ptr;
     }
 
+    static QSharedPointer<AlgorithmInterface > createAlgoFromString(const QString &name);
+    static QSharedPointer<GameInterface > createGameFromString(const QString &name);
 };
 
 #endif // MODELFACTORY_H

@@ -3,8 +3,12 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QMenuBar>
+#include <QMenu>
 #include <QSharedPointer>
-
+#include <QScopedPointer>
+#include <QLayout>
+class NewGameDialog;
 class GameUI;
 class GameController;
 class GameInterface;
@@ -17,16 +21,25 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QSharedPointer<GameInterface> game() const;
+    void setGame(const QSharedPointer<GameInterface> &game);
+
 private slots:
-    void startGame(int);
+    void newGame();
 
 private:
     
-    //QSharedPointer<GameUI> _ui;
-    //QSharedPointer<GameController> _controller;
+    void setMenus();
+
     QSharedPointer<GameInterface> _game;
-    GameUI *_ui;
-    GameController *_controller;
+    QSharedPointer<GameUI> _ui;
+    QSharedPointer<GameController> _controller;
+    QSharedPointer<NewGameDialog> _gameDialog;
+
+    QMenu *_menuFile;
+    QAction* _newGame;
+    QAction* _startGame;
+    QHBoxLayout *_hlayout;
 
 };
 #endif // MAINWINDOW_H

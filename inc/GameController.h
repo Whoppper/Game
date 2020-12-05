@@ -31,6 +31,7 @@ private:
     QVector<QSharedPointer<PlayerInterface>> _players;
     QSharedPointer<GameInterface> _game;
     bool _gameInProgress;
+    int _playerTurn;
 
 };
 

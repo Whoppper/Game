@@ -3,22 +3,29 @@
 
 #include <QSharedPointer>
 #include <QObject>
-#include "GameInterface.h"
+
+
+class GameInterface;
 class MoveInterface;
+class GameUI;
+class GameController;
 
 class PlayerInterface : public QObject
 {
     Q_OBJECT
 public:
+    PlayerInterface() {};
     PlayerInterface(const QSharedPointer<GameInterface> game) : _game(game) {};
     virtual void think() = 0;
+    virtual void setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller)= 0;
     void setGame(QSharedPointer<GameInterface> game) {_game = game;}
     void setPlayerNum(int num) {_playerNum = num;}
     int PlayerNum() {return _playerNum;}
 
 
-//signals:
-//    void sendMove(QSharedPointer<MoveInterface> move);
+
+signals:
+    void sendMove(QSharedPointer<MoveInterface> move);
 
 
 protected:

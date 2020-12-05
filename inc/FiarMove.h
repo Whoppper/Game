@@ -10,7 +10,7 @@ class FiarMove : public MoveInterface
 public:
     FiarMove();
     FiarMove(int col);
-
+    virtual ~FiarMove();
     virtual void playInGame(QSharedPointer<GameInterface> game) override;
     virtual bool isValidMove(QSharedPointer<GameInterface> game) override;
     int col() const;

@@ -23,9 +23,12 @@ public:
     virtual int getWinner() override;
     virtual int getMinimumWidth() override;
     virtual int getMinimumHeight() override;
+    virtual int getMaxPlayersAllowed() override;
+    virtual int getMinPlayersAllowed() override;
     virtual void display(GameUI &ui) override;
+    virtual QStringList playerAllowed() override;
+    virtual QStringList algorithmAllowedForIa() override ;
     virtual QSharedPointer<GameInterface> clone() override;
-    virtual int playerTurn() override;
     virtual QSharedPointer<MoveInterface> extractMove(QVector<HumanAction> &actions) override;
 
     virtual void play(FiarMove &move) override;

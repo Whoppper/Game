@@ -5,10 +5,14 @@
 #include <QDebug>
 #include <QMouseEvent>
 
+
 GameUI::GameUI(QWidget *parent, QSharedPointer<GameInterface> game) : QWidget(parent), _game(game)
 {
-    setMinimumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
-    setMaximumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
+    if (_game != Q_NULLPTR)
+    {
+        setMinimumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
+        setMaximumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
+    }
 }
 
 
@@ -24,7 +28,20 @@ void GameUI::paintEvent(QPaintEvent *event)
 
 void GameUI::needToRefresh(/*GameInterface g*/)
 {
+    qDebug() << "needToRefresh";
     update();
+}
+
+QSharedPointer<GameInterface> GameUI::game() const
+{
+    return _game;
+}
+
+void GameUI::setGame(const QSharedPointer<GameInterface> &game)
+{
+    _game = game;
+    setMinimumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
+    setMaximumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
 }
 
 void GameUI::displayGame(Fiar &fiar)
@@ -51,8 +68,10 @@ void GameUI::displayGame(Fiar &fiar)
 
 void GameUI::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << "GameUI::mousePressEvent";
     HumanAction haction;
-    haction.action = ActionType::MOUSE_PRESS;
+    haction.action = ActionType::MouseClick;
     haction.position = event->pos();
+    qDebug() << "GameUI::emit human action";
     emit newHumanAction(haction);
 }

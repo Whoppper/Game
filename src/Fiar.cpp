@@ -12,9 +12,7 @@ namespace
 {
     int getColumnFromPosition(QPoint position)
     {
-        qDebug() << position.x() << "  ;   " << position.y();
         int col = position.x() / 70;
-        qDebug() << col;
         return col;
     }
 }
@@ -57,12 +55,22 @@ const QVector<QVector<int>> &Fiar::getBoard()
     return _board;
 }
 
+QStringList Fiar::playerAllowed()
+{
+    return {"None", "IA", "Human"};
+}
+
+
+QStringList Fiar::algorithmAllowedForIa()
+{
+    return {"Random"};
+}
+
 QSharedPointer<MoveInterface> Fiar::extractMove(QVector<HumanAction> &actions)
 {
-    qDebug() << "Fiar::extractMove  " << actions.size();
     for (int i = 0; i < actions.size(); i++)
     {
-        if (actions[i].action == ActionType::MOUSE_PRESS)
+        if (actions[i].action == ActionType::MouseClick)
         {
             QSharedPointer<FiarMove> move = ModelFactory::create<FiarMove>();
             int col = getColumnFromPosition(actions[i].position);
@@ -100,14 +108,17 @@ QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
     return moves;
 }
 
-int Fiar::playerTurn()
+int Fiar::getMaxPlayersAllowed()
 {
-    return _playerTurn;
+    return 2;
+}
+int Fiar::getMinPlayersAllowed()
+{
+    return 2;
 }
 
 int Fiar::eval()
 {
-    // TODO
     return 1;
 }
 

@@ -7,10 +7,10 @@
 
 enum class ActionType
 {
-    MOUSE_PRESS,
-    MOUSE_RELEASE,
-    KEY_PRESS,
-    KEY_RELEASE
+    MouseClick,
+    MouseRelease,
+    KeyPress,
+    KeyRelease
 };
 
 
