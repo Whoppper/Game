@@ -1,6 +1,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include "HumanAction.h"
 #include <QObject>
 #include <QVector>
 #include <QSharedPointer>
@@ -18,6 +19,7 @@ public:
     explicit GameController(QObject *parent = nullptr);
     void setGame(QSharedPointer<GameInterface> game);
     void startGame();
+    void clear();
 
 signals:
     void gameChanged();
@@ -25,6 +27,7 @@ signals:
 public slots:
     void addPlayer(QSharedPointer<PlayerInterface> player);
     void moveReceived(QSharedPointer<MoveInterface> move);
+    void onHumanAction(HumanAction action);
 
 
 private:

@@ -22,7 +22,7 @@ void Human::think()
     _needToPlay = true;
 }
 
-void Human::onHumanPlay(HumanAction action)
+void Human::parseUserInput(HumanAction action)
 {
     qDebug()  << "onhumanplay;";
     if (!_needToPlay) // si c'est pas au tour du joueur
@@ -40,6 +40,7 @@ void Human::onHumanPlay(HumanAction action)
 
 void Human::setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller)
 {
+    Q_UNUSED(ui);
     connect(this, &Human::sendMove, controller.get(), &GameController::moveReceived);
-    connect(ui.get(), &GameUI::newHumanAction, this, &Human::onHumanPlay);
+    //connect(ui.get(), &GameUI::newHumanAction, this, &Human::onHumanPlay);
 }

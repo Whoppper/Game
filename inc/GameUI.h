@@ -23,7 +23,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 public slots:
-    void needToRefresh(/*GameInterface g*/);
+    void needToRefresh();
 
 
 signals:

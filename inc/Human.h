@@ -18,9 +18,7 @@ public:
     Human(QSharedPointer<GameInterface> game);
     virtual void think() override;
     virtual void setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller) override;
-
-public slots:
-    void onHumanPlay(HumanAction action);
+    virtual void parseUserInput(HumanAction action) override;
 
 private:
 

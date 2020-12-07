@@ -28,6 +28,7 @@ NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
     layout()->addWidget(_valider);
     connect(_valider, &QPushButton::clicked, this, &NewGameDialog::createGame);
     connect(_gameCombo, &QComboBox::currentTextChanged, this, &NewGameDialog::gameSelected);
+    resize(600, 400);
 }
 
 void NewGameDialog::resetDialog()
@@ -49,16 +50,15 @@ void NewGameDialog::resetDialog()
 
 void NewGameDialog::gameSelected(const QString &gameName)
 {
-    resetDialog();
-    _game = ModelFactory::createGameFromString(gameName);
+    QSharedPointer<GameInterface> tmpgame = ModelFactory::createGameFromString(gameName);
 
-    int maxPlayers = _game->getMaxPlayersAllowed();
+    int maxPlayers = tmpgame->getMaxPlayersAllowed();
     for (int i = 0; i < maxPlayers; i++)
     {
         QComboBox *combo = new QComboBox(this);
-        combo->addItems(_game->playerAllowed());
+        combo->addItems(tmpgame->playerAllowed());
         QComboBox *combo2 = new QComboBox(this);
-        combo2->addItems(_game->algorithmAllowedForIa());
+        combo2->addItems(tmpgame->algorithmAllowedForIa());
         _hlayout->addWidget(combo);
         _hlayout->addWidget(combo2);
         _playerCombo.push_back(combo);
@@ -78,6 +78,8 @@ QSharedPointer<GameInterface> NewGameDialog::game() const
 
 void NewGameDialog::createGame()
 {
+    _players.clear();
+    _game = ModelFactory::createGameFromString(_gameCombo->currentText());
     int nbPlayers = 0;
     for (QComboBox *combo : _playerCombo)
     {

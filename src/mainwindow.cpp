@@ -9,7 +9,6 @@
 #include "IA.h"
 #include "RandomAlgorithm.h"
 #include "AlgorithmInterface.h"
-#include "IA.h"
 #include "Human.h"
 #include "GameUI.h"
 #include "GameController.h"
@@ -40,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     _controller = QSharedPointer<GameController> (new GameController(this));
 
     connect(_controller.get(), &GameController::gameChanged, _ui.get(), &GameUI::needToRefresh);
+    connect( _ui.get(), &GameUI::newHumanAction, _controller.get(), &GameController::onHumanAction);
     setMenus();
 }
 
@@ -50,11 +50,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::newGame()
 {
+    //_gameDialog->resetDialog();
     if (_gameDialog->exec() == QDialog::Accepted)
     {
+        _controller->clear();
        _game =  _gameDialog->game();
        _controller->setGame(_game);
        _ui->setGame(_game);
+       _ui->update();
        QVector<QSharedPointer<PlayerInterface>> players = _gameDialog->players();
        for (int i = 0; i < players.size(); i++)
        {

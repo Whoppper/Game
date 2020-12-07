@@ -21,6 +21,15 @@ void GameController::addPlayer(QSharedPointer<PlayerInterface> player)
     }
 }
 
+void GameController::clear()
+{
+    _gameInProgress = false;
+    _players.clear();
+   // if (_game != Q_NULLPTR)
+        _game.reset();
+    _playerTurn = 1;
+}
+
 void GameController::setGame(QSharedPointer<GameInterface> game)
 {
     if (!_gameInProgress)
@@ -40,6 +49,16 @@ void GameController::startGame()
     }
 }
 
+void GameController::onHumanAction(HumanAction action)
+{
+    if (!_gameInProgress)
+    {
+        return ;
+    }
+    int indexActualPlayer = _playerTurn - 1;
+    _players[indexActualPlayer]->parseUserInput(action);
+}
+
 void GameController::moveReceived(QSharedPointer<MoveInterface> move)
 {
     qDebug() << "moveReceived;";
@@ -48,12 +67,9 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
         return ;
     }
     int indexActualPlayer = _playerTurn - 1;
-    qDebug() << "indexActualPlayer;" << indexActualPlayer << " " <<  _playerTurn;
     PlayerInterface * player = qobject_cast<PlayerInterface *>(sender());
     if( player != Q_NULLPTR )
     {
-        qDebug() << player;
-        qDebug() << _players[indexActualPlayer].get();
         if (_players[indexActualPlayer] == player && move->isValidMove(_game))
         {
             qDebug() << "emit gameChanged();";
@@ -67,7 +83,6 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
             }
            _playerTurn = _playerTurn + 1 > _players.size() ? 1 : _playerTurn + 1;
            indexActualPlayer = _playerTurn - 1;
-           qDebug() << "indexActualPlayer: " << indexActualPlayer;
             if (indexActualPlayer < _players.size())
             {
                 // TODO pour chaque player avec le signal gameChanged

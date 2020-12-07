@@ -1,6 +1,7 @@
 #ifndef PLAYERINTERFACE_H
 #define PLAYERINTERFACE_H
 
+#include "HumanAction.h"
 #include <QSharedPointer>
 #include <QObject>
 
@@ -21,6 +22,7 @@ public:
     void setGame(QSharedPointer<GameInterface> game) {_game = game;}
     void setPlayerNum(int num) {_playerNum = num;}
     int PlayerNum() {return _playerNum;}
+    virtual void parseUserInput(HumanAction action) {Q_UNUSED(action)};
 
 
 
