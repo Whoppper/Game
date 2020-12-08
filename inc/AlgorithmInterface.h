@@ -2,16 +2,26 @@
 #define ALGORITHMINTERFACE_H
 
 #include <QSharedPointer>
-
+#include "MoveInterface.h"
 
 class GameInterface;
 class MoveInterface;
 
-class AlgorithmInterface
+class AlgorithmInterface : public QObject
 {
-public:
 
-    virtual QSharedPointer<MoveInterface> start(QSharedPointer<GameInterface> game) = 0;
+    Q_OBJECT
+public:
+    virtual ~AlgorithmInterface() {}
+    virtual QSharedPointer<MoveInterface> start() = 0;
+
+    QSharedPointer<GameInterface> game() const {return _game;}
+    void setGame(const QSharedPointer<GameInterface> &game) {_game = game;}
+protected:
+    QSharedPointer<GameInterface> _game;
+
+signals:
+    void resultReady(MovePtr move);
 
 };
 
@@ -19,4 +29,8 @@ public:
 
 
 
+
+
 #endif // ALGORITHMINTERFACE_H
+
+

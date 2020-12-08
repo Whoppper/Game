@@ -4,9 +4,12 @@
 #include "MoveInterface.h"
 #include <QRandomGenerator>
 #include <QDebug>
-QSharedPointer<MoveInterface> RandomAlgorithm::start(QSharedPointer<GameInterface> game  /* timeAllowed   */)
+
+
+QSharedPointer<MoveInterface> RandomAlgorithm::start()
 {
-    QVector<QSharedPointer<MoveInterface>> moves = game->getMoves();
+    qRegisterMetaType<MovePtr>("MovePtr");
+    QVector<QSharedPointer<MoveInterface>> moves = _game->getMoves();
     if (moves.size() == 0)
     {
         qDebug() << "Error move.size == 0";
@@ -14,6 +17,7 @@ QSharedPointer<MoveInterface> RandomAlgorithm::start(QSharedPointer<GameInterfac
     }
     //int randMove = QRandomGenerator::global()->generate() % moves.size();
     int randMove = rand() % moves.size();
+    emit resultReady(moves[randMove]);
     return moves[randMove];
 }
 

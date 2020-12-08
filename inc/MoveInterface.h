@@ -14,4 +14,6 @@ public:
 
 };
 
+typedef QSharedPointer<MoveInterface> MovePtr;
+
 #endif // MOVEINTERFACE_H

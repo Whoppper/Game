@@ -2,11 +2,12 @@
 #define IA_H
 
 #include "PlayerInterface.h"
+#include "MoveInterface.h"
 #include <QSharedPointer>
 #include <QThread>
+#include <QMetaType>
 
 class GameInterface;
-class MoveInterface;
 class AlgorithmInterface;
 
 class IA : public PlayerInterface
@@ -21,8 +22,11 @@ public:
     void setAlgorithm(const QSharedPointer<AlgorithmInterface> &algorithm);
     virtual void setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller) override;
 
-//signals:
-//    void sendMove(QSharedPointer<MoveInterface> move);
+signals:
+    void operate();
+
+private slots:
+    void onResultReady(MovePtr move);
 
 
 
@@ -35,5 +39,6 @@ private:
 };
 
 
+//Q_DECLARE_METATYPE(QSharedPointer<MoveInterface>);
 
 #endif // IA_H

@@ -9,10 +9,14 @@ class GameInterface;
 
 class RandomAlgorithm : public AlgorithmInterface
 {
+    Q_OBJECT
 public:
     RandomAlgorithm();
     virtual ~RandomAlgorithm();
-    virtual QSharedPointer<MoveInterface> start(QSharedPointer<GameInterface> game /* + timeAllowed from ia  */) override;
+    virtual QSharedPointer<MoveInterface> start() override;
+
+//signals:
+//    void resultReady(QSharedPointer<MoveInterface> move);
 };
 
 
