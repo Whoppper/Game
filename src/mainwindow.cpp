@@ -64,7 +64,7 @@ void MainWindow::newGame()
            players[i]->setConnection(_ui, _controller);
            _controller->addPlayer(players[i]);
        }
-       qDebug() << "MainWindow::newGame()  controller->startGame();";
+       //qDebug() << "MainWindow::newGame()  controller->startGame();";
        _controller->startGame();
     }
 

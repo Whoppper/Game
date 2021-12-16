@@ -10,10 +10,10 @@ class GameInterface;
 class ModelFactory
 {
 public:
-    template< class Type >
-    static QSharedPointer< Type > create()
+    template< class Type, class ... Args >
+    static QSharedPointer< Type > create(Args... args)
     {
-        QSharedPointer< Type > ptr( new Type() );
+        QSharedPointer< Type > ptr( new Type(args...) );
         return ptr;
     }
 

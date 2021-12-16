@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QDebug>
 
+#include <vld.h>
+
 IA::IA()
 {
 }
@@ -17,24 +19,25 @@ IA::IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> al
 PlayerInterface(game), _algorithm(algorithm)
 {
 
+    _thread = new QThread();
+    _algorithm->moveToThread(_thread);
+    connect(_algorithm.get(), &AlgorithmInterface::resultReady, this, &IA::onResultReady);
+    connect(_thread, &QThread::started, _algorithm.get(), &AlgorithmInterface::start);
 }
 
 void IA::think()
 {
     qDebug() << "IA is thinking...";
-    _thread = new QThread();
-    _algorithm->moveToThread(_thread);
+    a = new int(6);
     _algorithm->setGame(_game);
-    connect(_thread, &QThread::finished, _thread, &QObject::deleteLater);
-    connect(_thread, &QThread::started, _algorithm.get(), &AlgorithmInterface::start);
-    connect(_algorithm.get(), &AlgorithmInterface::resultReady, this, &IA::onResultReady);
     _thread->start();
-
 }
 
 void IA::setAlgorithm(const QSharedPointer<AlgorithmInterface> &algorithm)
 {
     _algorithm = algorithm;
+    connect(_algorithm.get(), &AlgorithmInterface::resultReady, this, &IA::onResultReady);
+
 }
 
 void IA::setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller)
@@ -45,11 +48,23 @@ void IA::setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController>
 
 void IA::onResultReady(MovePtr move)
 {
-    qDebug() << "IA send move..." << move;
+    //qDebug() << "IA send move..." << move;
+    _thread->quit();
     emit sendMove(move);
 }
 
 IA::~IA()
 {
-
+    if (_thread)
+    {
+        _thread->quit();
+        if(!_thread->wait(3000))
+        {
+            qDebug() << "call thread terminate";
+            _thread->terminate();
+            _thread->wait();
+        }
+        _thread->deleteLater();
+        _thread = nullptr;
+    }
 }

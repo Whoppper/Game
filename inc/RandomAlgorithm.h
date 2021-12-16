@@ -11,12 +11,10 @@ class RandomAlgorithm : public AlgorithmInterface
 {
     Q_OBJECT
 public:
-    RandomAlgorithm();
+    RandomAlgorithm(double timeAllowed);
     virtual ~RandomAlgorithm();
-    virtual QSharedPointer<MoveInterface> start() override;
+    virtual void start() override;
 
-//signals:
-//    void resultReady(QSharedPointer<MoveInterface> move);
 };
 
 

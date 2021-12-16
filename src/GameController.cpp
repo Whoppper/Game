@@ -72,8 +72,9 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
     {
         if (_players[indexActualPlayer] == player && move->isValidMove(_game))
         {
-            qDebug() << "emit gameChanged();";
+            //qDebug() << "GameController::moveReceived play in game;";
             move->playInGame(_game);
+            //qDebug() << "GameController::moveReceived emit gameChanged();";
             emit gameChanged();
             if (_game->finish())
             {

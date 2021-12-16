@@ -6,9 +6,9 @@
 #include <QDebug>
 
 
-QSharedPointer<MoveInterface> RandomAlgorithm::start()
+void RandomAlgorithm::start()
 {
-    qRegisterMetaType<MovePtr>("MovePtr");
+    //qRegisterMetaType<MovePtr>("MovePtr");
     QVector<QSharedPointer<MoveInterface>> moves = _game->getMoves();
     if (moves.size() == 0)
     {
@@ -18,10 +18,9 @@ QSharedPointer<MoveInterface> RandomAlgorithm::start()
     //int randMove = QRandomGenerator::global()->generate() % moves.size();
     int randMove = rand() % moves.size();
     emit resultReady(moves[randMove]);
-    return moves[randMove];
 }
 
-RandomAlgorithm::RandomAlgorithm()
+RandomAlgorithm::RandomAlgorithm(double timeAllowed) : AlgorithmInterface(timeAllowed)
 {
 
 }

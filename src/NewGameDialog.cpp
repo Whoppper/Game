@@ -88,7 +88,7 @@ void NewGameDialog::createGame()
     }
     if (nbPlayers < _game->getMinPlayersAllowed())
     {
-        qDebug() << "Minimun Players: " << _game->getMinPlayersAllowed() << " " << nbPlayers;
+        //qDebug() << "Minimun Players: " << _game->getMinPlayersAllowed() << " " << nbPlayers;
         QDialog::reject();
         return ;
     }

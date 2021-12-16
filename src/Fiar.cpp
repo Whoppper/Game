@@ -20,10 +20,9 @@ namespace
 Fiar::Fiar() :
     _board(BOARD_HEIGHT, QVector<int>(BOARD_WIDTH, 0)) ,
     _winner(-1) ,
-    _finished(false) ,
-    _playerTurn(PLAYER_1)
+    _finished(false)
 {
-
+    _playerTurn = PLAYER_1;
 }
 
 Fiar::~Fiar()
@@ -63,7 +62,7 @@ QStringList Fiar::playerAllowed()
 
 QStringList Fiar::algorithmAllowedForIa()
 {
-    return {"Random"};
+    return {"Random", "MinMax"};
 }
 
 QSharedPointer<MoveInterface> Fiar::extractMove(QVector<HumanAction> &actions)
@@ -117,9 +116,30 @@ int Fiar::getMinPlayersAllowed()
     return 2;
 }
 
-int Fiar::eval()
+
+
+int Fiar::eval(int player)
 {
-    return 1;
+    int eval1 = 0;
+    int eval2 = 0;
+    for (int i = 0; i < _board.size(); i++)
+    {
+        for (int j = 0; j < _board[i].size(); j++)
+        {
+            if (_board[i][j] == 1)
+            {
+                eval1 += getMoveValue(i, j, 1);
+            }
+            if (_board[i][j] == 2)
+            {
+                eval2 += getMoveValue(i, j, 2);
+            }
+        }
+    }
+    int total = eval1 - eval2;
+    if (player == PLAYER_2)
+        return -total;
+    return total;
 }
 
 void Fiar::play(FiarMove &move)
@@ -141,7 +161,6 @@ void Fiar::play(FiarMove &move)
     if (_finished)
         _winner = _playerTurn;
     _history.push_back(FiarMove(col));
-
     // check total moves played (for draw)
     if (_history.size() == BOARD_HEIGHT * BOARD_WIDTH && !_finished)
     {
@@ -280,6 +299,149 @@ bool Fiar::isGameFinished(int col)
         return true;
 
     return false;
+}
+
+int Fiar::getMoveValue(int row, int col, int player)
+{
+    const int multi = 2;
+
+    int eval = 0;
+    int totalAlign= 1;
+    int maxAlign= 1;
+    bool bouboulle = true;
+    // val row
+    int tmprow = row;
+    int tmpcol = col - 1;
+    maxAlign = 1;
+    totalAlign = 1;
+    while (tmpcol > -1 && (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
+    {
+        if (_board[row][tmpcol] == 0)
+            bouboulle = false;
+        tmpcol--;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+
+    bouboulle = true;
+    tmpcol = col + 1;
+    while (tmpcol < BOARD_WIDTH && (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
+    {
+        if (_board[row][tmpcol] == 0)
+            bouboulle = false;
+        tmpcol++;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    if (maxAlign >= 4)
+    {
+        eval += totalAlign * multi;
+    }
+
+
+    // val col
+    tmprow = row - 1;
+    tmpcol = col;
+    totalAlign= 1;
+    maxAlign = 1;
+    bouboulle = true;
+    while (tmprow > -1 && (_board[tmprow][col] == player || _board[tmprow][col] == 0))
+    {
+        if (_board[tmprow][col] == 0)
+            bouboulle = false;
+        tmprow--;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+
+    tmprow = row + 1;
+    bouboulle = true;
+    while (tmprow < BOARD_HEIGHT && (_board[tmprow][col] == player || _board[tmprow][col] == 0))
+    {
+        if (_board[tmprow][col] == 0)
+            bouboulle = false;
+        tmprow++;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    if (maxAlign >= 4)
+    {
+        eval += totalAlign * multi;
+    }
+
+    // check d1
+    tmprow = row - 1;
+    tmpcol = col - 1;
+    totalAlign= 1;
+    maxAlign = 1;
+    bouboulle = true;
+    while (tmprow > -1 && tmpcol > -1 && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0) )
+    {
+        if (_board[tmprow][tmpcol] == 0)
+            bouboulle = false;
+        tmprow--;
+        tmpcol--;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    tmprow = row + 1;
+    tmpcol = col + 1;
+    bouboulle = true;
+    while (tmpcol < BOARD_WIDTH && tmprow < BOARD_HEIGHT && ( _board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    {
+        if (_board[tmprow][tmpcol] == 0)
+            bouboulle = false;
+        tmprow++;
+        tmpcol++;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    if (maxAlign >= 4)
+    {
+        eval += totalAlign * multi;
+    }
+
+    // check d2
+    tmprow = row - 1;
+    tmpcol = col + 1;
+    totalAlign= 1;
+    maxAlign = 1;
+    bouboulle = true;
+    while (tmprow > -1 && tmpcol < BOARD_WIDTH && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    {
+        if (_board[tmprow][tmpcol] == 0)
+            bouboulle = false;
+        tmprow--;
+        tmpcol++;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    tmprow = row + 1;
+    tmpcol = col - 1;
+    bouboulle = true;
+    while (tmpcol > -1 && tmprow < BOARD_HEIGHT && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    {
+        if (_board[tmprow][tmpcol] == 0)
+            bouboulle = false;
+        tmprow++;
+        tmpcol--;
+        maxAlign++;
+        if (bouboulle == true)
+            totalAlign++;
+    }
+    if (maxAlign >= 4)
+    {
+        eval += totalAlign * multi;
+    }
+
+    return eval;
 }
 
 

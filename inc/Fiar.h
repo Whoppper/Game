@@ -17,7 +17,7 @@ public:
     virtual ~Fiar();
 
     virtual QVector<QSharedPointer<MoveInterface>> getMoves() override;
-    virtual int eval() override;
+    virtual int eval(int player) override;
     virtual void undo() override;
     virtual bool finish() override;
     virtual int getWinner() override;
@@ -34,6 +34,8 @@ public:
     virtual void play(FiarMove &move) override;
     virtual bool isLegalMove(FiarMove &move) override;
 
+    int getMoveValue(int row, int col, int player);
+
     const QVector<QVector<int>> &getBoard();
 
 private:
@@ -42,7 +44,6 @@ private:
     int _winner;
     bool _finished;
     QVector<FiarMove> _history;
-    int _playerTurn;
 
 private:
     bool isGameFinished(int lastMove);

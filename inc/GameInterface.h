@@ -19,7 +19,7 @@ class GameInterface
 public:
 
     virtual QVector<QSharedPointer<MoveInterface>> getMoves() = 0;
-    virtual int eval() = 0;
+    virtual int eval(int player) = 0;
     virtual void undo() = 0;
     virtual int getWinner() = 0;
     virtual bool finish() = 0;
@@ -35,6 +35,12 @@ public:
 
     virtual void play(FiarMove &move) {Q_UNUSED(move)};
     virtual bool isLegalMove(FiarMove &move) {Q_UNUSED(move);return false;};
+
+    int playerTurn() const {return _playerTurn;}
+    void setPlayerTurn(int newPlayerTurn){_playerTurn = newPlayerTurn;}
+
+protected:
+    int _playerTurn;
 };
 
 #endif // GAME_H

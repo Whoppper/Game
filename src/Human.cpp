@@ -24,7 +24,7 @@ void Human::think()
 
 void Human::parseUserInput(HumanAction action)
 {
-    qDebug()  << "onhumanplay;";
+    //qDebug()  << "onhumanplay;";
     if (!_needToPlay) // si c'est pas au tour du joueur
         return ;
     _actions.push_back(action);

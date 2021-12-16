@@ -18,7 +18,7 @@ GameUI::GameUI(QWidget *parent, QSharedPointer<GameInterface> game) : QWidget(pa
 
 void GameUI::paintEvent(QPaintEvent *event)
 {
-    qDebug() << "paintEvent";
+    //qDebug() << "paintEvent";
     Q_UNUSED(event);
     if (_game != nullptr)
     {
@@ -28,7 +28,7 @@ void GameUI::paintEvent(QPaintEvent *event)
 
 void GameUI::needToRefresh(/*GameInterface g*/)
 {
-    qDebug() << "needToRefresh";
+    //qDebug() << "needToRefresh";
     update();
 }
 
@@ -46,6 +46,7 @@ void GameUI::setGame(const QSharedPointer<GameInterface> &game)
 
 void GameUI::displayGame(Fiar &fiar)
 {
+    //qDebug() << "GameUI::displayGame()";
     QPainter painter;
     painter.begin(this);
     QBrush brush(Qt::black);
@@ -53,6 +54,7 @@ void GameUI::displayGame(Fiar &fiar)
     painter.fillRect(rect(), brush);
     QVector<QColor> colors = {Qt::white, Qt::yellow, Qt::red};
     const QVector<QVector<int>> &board = fiar.getBoard();
+    //qDebug() << board;
     for (int row = 0; row < board.size(); row++)
     {
         for (int col = 0; col < board[row].size(); col++)
@@ -64,14 +66,15 @@ void GameUI::displayGame(Fiar &fiar)
         }
     }
     painter.end();
+    //qDebug() << "end GameUI::displayGame()";
 }
 
 void GameUI::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "GameUI::mousePressEvent";
+    //qDebug() << "GameUI::mousePressEvent";
     HumanAction haction;
     haction.action = ActionType::MouseClick;
     haction.position = event->pos();
-    qDebug() << "GameUI::emit human action";
+    //qDebug() << "GameUI::emit human action";
     emit newHumanAction(haction);
 }
