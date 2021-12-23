@@ -35,7 +35,6 @@ private slots:
 private:
     QThread *_thread;
     QSharedPointer<AlgorithmInterface> _algorithm;
-    int *a;
 
 };
 

@@ -4,7 +4,7 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 #include <time.h>
-#include <vld.h>
+//#include <vld.h>
 
 #include "MoveInterface.h"
 

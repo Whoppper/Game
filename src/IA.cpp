@@ -9,8 +9,6 @@
 #include <QObject>
 #include <QDebug>
 
-#include <vld.h>
-
 IA::IA()
 {
 }
@@ -28,7 +26,6 @@ PlayerInterface(game), _algorithm(algorithm)
 void IA::think()
 {
     qDebug() << "IA is thinking...";
-    a = new int(6);
     _algorithm->setGame(_game);
     _thread->start();
 }
@@ -64,7 +61,8 @@ IA::~IA()
             _thread->terminate();
             _thread->wait();
         }
-        _thread->deleteLater();
+        //_thread->deleteLater();
+        delete _thread;
         _thread = nullptr;
     }
 }

@@ -3,6 +3,7 @@
 #include "AlgorithmInterface.h"
 #include "RandomAlgorithm.h"
 #include "MinMaxAlgorithm.h"
+#include "MctsAlgorithm.h"
 #include "PlayerInterface.h"
 #include "IA.h"
 #include "Human.h"
@@ -15,11 +16,15 @@ QSharedPointer<AlgorithmInterface > ModelFactory::createAlgoFromString(const QSt
     QSharedPointer<AlgorithmInterface > algo;
     if (name == "Random")
     {
-        algo = ModelFactory::create<RandomAlgorithm>(2);
+        algo = ModelFactory::create<RandomAlgorithm>(3);
     }
     else if (name == "MinMax")
     {
-        algo = ModelFactory::create<MinMaxAlgorithm>(2);
+        algo = ModelFactory::create<MinMaxAlgorithm>(3);
+    }
+    else if (name == "Mcts")
+    {
+        algo = ModelFactory::create<MctsAlgorithm>(3);
     }
     return (algo);
 }

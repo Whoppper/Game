@@ -62,7 +62,7 @@ QStringList Fiar::playerAllowed()
 
 QStringList Fiar::algorithmAllowedForIa()
 {
-    return {"Random", "MinMax"};
+    return {"Random", "MinMax", "Mcts"};
 }
 
 QSharedPointer<MoveInterface> Fiar::extractMove(QVector<HumanAction> &actions)
