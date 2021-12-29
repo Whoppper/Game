@@ -12,7 +12,7 @@
 #include "Fiar.h"
 
 
-const QStringList NewGameDialog::gameList = {"None", "Fiar"};
+const QStringList NewGameDialog::gameList = {"None", "Fiar", "Uttt"};
 
 NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
 {

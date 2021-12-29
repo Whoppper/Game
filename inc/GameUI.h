@@ -7,6 +7,7 @@
 #include "HumanAction.h"
 
 class Fiar;
+class Uttt;
 class GameInterface;
 
 class GameUI : public QWidget
@@ -15,6 +16,7 @@ class GameUI : public QWidget
 public:
     GameUI(QWidget *parent = nullptr, QSharedPointer<GameInterface> game =nullptr);
     void displayGame(Fiar &fiar);
+    void displayGame(Uttt &uttt);
     QSharedPointer<GameInterface> game() const;
     void setGame(const QSharedPointer<GameInterface> &game);
 

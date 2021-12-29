@@ -10,21 +10,22 @@
 
 #include "GameInterface.h"
 #include "Fiar.h"
+#include "Uttt.h"
 
 QSharedPointer<AlgorithmInterface > ModelFactory::createAlgoFromString(const QString &name)
 {
     QSharedPointer<AlgorithmInterface > algo;
     if (name == "Random")
     {
-        algo = ModelFactory::create<RandomAlgorithm>(3);
+        algo = ModelFactory::create<RandomAlgorithm>(1);
     }
     else if (name == "MinMax")
     {
-        algo = ModelFactory::create<MinMaxAlgorithm>(3);
+        algo = ModelFactory::create<MinMaxAlgorithm>(1);
     }
     else if (name == "Mcts")
     {
-        algo = ModelFactory::create<MctsAlgorithm>(3);
+        algo = ModelFactory::create<MctsAlgorithm>(1);
     }
     return (algo);
 }
@@ -35,6 +36,10 @@ QSharedPointer<GameInterface > ModelFactory::createGameFromString(const QString 
     if (name == "Fiar")
     {
         game = ModelFactory::create<Fiar>();
+    }
+    else if (name == "Uttt")
+    {
+        game = ModelFactory::create<Uttt>();
     }
     return (game);
 }

@@ -42,9 +42,6 @@ public:
     int simulateRandomPlayout(QSharedPointer<GameInterface> game);
     QSharedPointer<MctsNode> selectPromisingNode(QSharedPointer<MctsNode> &node);
 
-
-
-
 private:
     int _playerNumber;
     QSharedPointer<MctsNode> _root;

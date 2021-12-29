@@ -11,6 +11,7 @@ constexpr int PLAYER_2 = 2;
 constexpr int DRAW = 0;
 
 class FiarMove;
+class UtttMove;
 class MoveInterface;
 class GameUI;
 
@@ -35,6 +36,10 @@ public:
 
     virtual void play(FiarMove &move) {Q_UNUSED(move)};
     virtual bool isLegalMove(FiarMove &move) {Q_UNUSED(move);return false;};
+
+    virtual void play(UtttMove &move) {Q_UNUSED(move)};
+    virtual bool isLegalMove(UtttMove &move) {Q_UNUSED(move);return false;};
+
 
     int playerTurn() const {return _playerTurn;}
     void setPlayerTurn(int newPlayerTurn){_playerTurn = newPlayerTurn;}

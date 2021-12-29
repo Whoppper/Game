@@ -41,14 +41,13 @@ void MctsNode::expand()
     QVector<QSharedPointer<MoveInterface>> moves = _game->getMoves();
     for (QSharedPointer<MoveInterface> &move : moves)
     {
-        move->playInGame(_game);
         QSharedPointer<MctsNode> child = ModelFactory::create<MctsNode>(3 - _player);
         //child->_parent = QSharedPointer<MctsNode>(this);
         child->_parent = this;
         child->_player = 3 - _player;
         child->_game = _game->clone();
+        move->playInGame(child->_game);
         child->_move = move;
-        _game->undo();
         _children.push_back(child);
     }
 }

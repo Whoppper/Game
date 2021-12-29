@@ -33,6 +33,8 @@ SOURCES += \
     src/ModelFactory.cpp \
     src/NewGameDialog.cpp \
     src/RandomAlgorithm.cpp \
+    src/Uttt.cpp \
+    src/UtttMove.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
@@ -51,6 +53,8 @@ HEADERS += \
     inc/MoveInterface.h \
     inc/PlayerInterface.h \
     inc/RandomAlgorithm.h \
+    inc/Uttt.h \
+    inc/UtttMove.h \
     inc/mainwindow.h \ \
     inc/GameController.h \
     inc/NewGameDialog.h
