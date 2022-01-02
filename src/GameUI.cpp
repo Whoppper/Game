@@ -29,7 +29,6 @@ void GameUI::paintEvent(QPaintEvent *event)
 
 void GameUI::needToRefresh(/*GameInterface g*/)
 {
-    //qDebug() << "needToRefresh";
     update();
 }
 
@@ -47,7 +46,6 @@ void GameUI::setGame(const QSharedPointer<GameInterface> &game)
 
 void GameUI::displayGame(Fiar &fiar)
 {
-    //qDebug() << "GameUI::displayGame()";
     QPainter painter;
     painter.begin(this);
     QBrush brush(Qt::black);
@@ -55,19 +53,17 @@ void GameUI::displayGame(Fiar &fiar)
     painter.fillRect(rect(), brush);
     QVector<QColor> colors = {Qt::white, Qt::yellow, Qt::red};
     const QVector<QVector<int>> &board = fiar.getBoard();
-    //qDebug() << board;
     for (int row = 0; row < board.size(); row++)
     {
         for (int col = 0; col < board[row].size(); col++)
         {
             painter.setBrush(QBrush(colors[board[row][col]]));
-            int x = 35 + 70 * col;
-            int y = 35 + 70 * row;
-            painter.drawEllipse(QPointF(x,y), 35, 35);
+            int x = Fiar::COLSIZE / 2 + Fiar::COLSIZE * col;
+            int y = Fiar::COLSIZE / 2 + Fiar::COLSIZE * row;
+            painter.drawEllipse(QPointF(x,y), Fiar::COLSIZE / 2, Fiar::COLSIZE / 2);
         }
     }
     painter.end();
-    //qDebug() << "end GameUI::displayGame()";
 }
 
 void GameUI::displayGame(Uttt &uttt)
@@ -130,8 +126,6 @@ void GameUI::displayGame(Uttt &uttt)
                 int topLeftRPos = urow * 180 + 60 * row;
                 if (ttt[row][col] == 1 || ttt[row][col] == 2)
                 {
-
-
                     pen = QPen(colors[ttt[row][col]]);
                     pen.setWidth(2);
                     painter.setPen(pen);
@@ -152,15 +146,12 @@ void GameUI::displayGame(Uttt &uttt)
                     painter.setPen(pen);
                     painter.drawEllipse(QPointF(topLeftCPos + 30 ,topLeftRPos + 30), 3, 3);
                 }
-
             }
         }
 
         i++;
     }
-
     painter.end();
-
 }
 
 void GameUI::mousePressEvent(QMouseEvent *event)
@@ -169,6 +160,5 @@ void GameUI::mousePressEvent(QMouseEvent *event)
     HumanAction haction;
     haction.action = ActionType::MouseClick;
     haction.position = event->pos();
-    //qDebug() << "GameUI::emit human action";
     emit newHumanAction(haction);
 }

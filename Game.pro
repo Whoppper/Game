@@ -23,6 +23,7 @@ INCLUDEPATH += $$PWD/inc
 SOURCES += \
     src/HumanAction.cpp \
     src/GameController.cpp \
+    src/GameInterface.cpp \
     src/GameUI.cpp \
     src/Fiar.cpp \
     src/FiarMove.cpp \

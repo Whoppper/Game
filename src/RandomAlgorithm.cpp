@@ -8,7 +8,6 @@
 
 void RandomAlgorithm::start()
 {
-    //qRegisterMetaType<MovePtr>("MovePtr");
     QVector<QSharedPointer<MoveInterface>> moves = _game->getMoves();
     if (moves.size() == 0)
     {

@@ -50,7 +50,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::newGame()
 {
-    //_gameDialog->resetDialog();
+    if (_gameDialog == nullptr)
+        return;
+    _gameDialog->resetDialog();
     if (_gameDialog->exec() == QDialog::Accepted)
     {
         _controller->clear();
@@ -64,7 +66,6 @@ void MainWindow::newGame()
            players[i]->setConnection(_ui, _controller);
            _controller->addPlayer(players[i]);
        }
-       //qDebug() << "MainWindow::newGame()  controller->startGame();";
        _controller->startGame();
     }
 
@@ -75,10 +76,10 @@ void MainWindow::setMenus()
 {
     _menuFile = new QMenu(tr("&File"), this);
     _newGame = new QAction(tr("&New"), this);
-    _startGame = new QAction(tr("&Start"), this);
+   //_startGame = new QAction(tr("&Start"), this);
     menuBar()->addMenu(_menuFile);
     _menuFile->addAction(_newGame);
-    _menuFile->addAction(_startGame);
+    //_menuFile->addAction(_startGame);
 
     connect(_newGame, &QAction::triggered, this, &MainWindow::newGame);
 }

@@ -61,7 +61,6 @@ IA::~IA()
             _thread->terminate();
             _thread->wait();
         }
-        //_thread->deleteLater();
         delete _thread;
         _thread = nullptr;
     }

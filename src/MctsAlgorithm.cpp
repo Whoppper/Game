@@ -42,7 +42,6 @@ void MctsNode::expand()
     for (QSharedPointer<MoveInterface> &move : moves)
     {
         QSharedPointer<MctsNode> child = ModelFactory::create<MctsNode>(3 - _player);
-        //child->_parent = QSharedPointer<MctsNode>(this);
         child->_parent = this;
         child->_player = 3 - _player;
         child->_game = _game->clone();
@@ -110,7 +109,7 @@ void MctsAlgorithm::start()
     qDebug() << "_rollout: " << _rollout;
     qDebug() << "visite: " << bestNode->_visit;
     qDebug() << "win: " << bestNode->_win;
-     qDebug() << "ratio: " << bestNode->_win / bestNode->_visit;
+    qDebug() << "ratio: " << bestNode->_win / bestNode->_visit;
     emit resultReady(bestNode->_move);
 }
 

@@ -80,13 +80,13 @@ bool Uttt::finish()
 
 QStringList Uttt::playerAllowed()
 {
-    return {"None", "IA", "Human"};
+    return {"IA", "Human"};
 }
 
 
 QStringList Uttt::algorithmAllowedForIa()
 {
-    return {"Random", "MinMax", "Mcts"};
+    return {"Mcts", "MinMax", "Random"};
 }
 
 QSharedPointer<MoveInterface> Uttt::extractMove(QVector<HumanAction> &actions)
@@ -281,6 +281,7 @@ void Uttt::play(UtttMove &move)
 
 void Uttt::undo()
 {
+    qDebug() << "Uttt::undo() TODO";
     /*if (_history.size() == 0)
         return ;
     _finished = false;

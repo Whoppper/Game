@@ -31,11 +31,11 @@ public:
     virtual QSharedPointer<GameInterface> clone() override;
     virtual QSharedPointer<MoveInterface> extractMove(QVector<HumanAction> &actions) override;
 
+    static constexpr int COLSIZE = 70;
+
     virtual void play(FiarMove &move) override;
     virtual bool isLegalMove(FiarMove &move) override;
-
     int getMoveValue(int row, int col, int player);
-
     const QVector<QVector<int>> &getBoard();
 
 private:

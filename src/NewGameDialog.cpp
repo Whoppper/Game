@@ -11,8 +11,17 @@
 #include "ModelFactory.h"
 #include "Fiar.h"
 
-
-const QStringList NewGameDialog::gameList = {"None", "Fiar", "Uttt"};
+namespace
+{
+    void clearLayout(QBoxLayout* layout)
+    {
+        QLayoutItem *child;
+        while ((child = layout->takeAt(0)) != 0)
+        {
+            delete child;
+        }
+    }
+}
 
 NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
 {
@@ -20,7 +29,10 @@ NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
     _playerWidget = new QWidget(this);
     _hlayout = new QHBoxLayout();
     _gameCombo = new QComboBox(this);
-    _gameCombo->insertItems(0, gameList);
+    for (const GameName &name: GameInterface::gameList)
+    {
+        _gameCombo->addItem(GameInterface::GameNameToString(name));
+    }
     _valider= new QPushButton("OK", this);
     layout()->addWidget(_gameCombo);
     _playerWidget->setLayout(_hlayout);
@@ -29,29 +41,25 @@ NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
     connect(_valider, &QPushButton::clicked, this, &NewGameDialog::createGame);
     connect(_gameCombo, &QComboBox::currentTextChanged, this, &NewGameDialog::gameSelected);
     resize(600, 400);
+
 }
 
 void NewGameDialog::resetDialog()
 {
-    for (QComboBox *combo : _algoCombo)
-    {
-        delete combo;
-    }
-    for (QComboBox *combo : _playerCombo)
-    {
-        delete combo;
-    }
     _algoCombo.clear();
     _playerCombo.clear();
     _game.clear();
     _players.clear();
+    gameSelected(GameInterface::GameNameToString(GameName::Fiar));
 }
 
 
 void NewGameDialog::gameSelected(const QString &gameName)
 {
     QSharedPointer<GameInterface> tmpgame = ModelFactory::createGameFromString(gameName);
-
+    if (tmpgame == nullptr)
+        return ;
+    clearLayout(_hlayout);
     int maxPlayers = tmpgame->getMaxPlayersAllowed();
     for (int i = 0; i < maxPlayers; i++)
     {
@@ -88,7 +96,7 @@ void NewGameDialog::createGame()
     }
     if (nbPlayers < _game->getMinPlayersAllowed())
     {
-        //qDebug() << "Minimun Players: " << _game->getMinPlayersAllowed() << " " << nbPlayers;
+        qDebug() << "Minimun Players: " << _game->getMinPlayersAllowed() << " " << nbPlayers;
         QDialog::reject();
         return ;
     }
@@ -111,8 +119,6 @@ void NewGameDialog::createGame()
         }
         i++;
     }
-    emit playersCreated(_players);
-    emit gameCreated(_game);
     QDialog::accept();
 }
 

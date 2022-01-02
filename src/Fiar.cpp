@@ -12,7 +12,7 @@ namespace
 {
     int getColumnFromPosition(QPoint position)
     {
-        int col = position.x() / 70;
+        int col = position.x() / Fiar::COLSIZE;
         return col;
     }
 }
@@ -32,11 +32,11 @@ Fiar::~Fiar()
 
 int Fiar::getMinimumWidth()
 {
-    return BOARD_WIDTH * 70;
+    return BOARD_WIDTH * COLSIZE;
 }
 int Fiar::getMinimumHeight()
 {
-    return BOARD_HEIGHT * 70;
+    return BOARD_HEIGHT * COLSIZE;
 }
 
 void Fiar::display(GameUI &ui)
@@ -56,13 +56,13 @@ const QVector<QVector<int>> &Fiar::getBoard()
 
 QStringList Fiar::playerAllowed()
 {
-    return {"None", "IA", "Human"};
+    return {"IA", "Human"};
 }
 
 
 QStringList Fiar::algorithmAllowedForIa()
 {
-    return {"Random", "MinMax", "Mcts"};
+    return {"Mcts", "MinMax", "Random"};
 }
 
 QSharedPointer<MoveInterface> Fiar::extractMove(QVector<HumanAction> &actions)
@@ -115,8 +115,6 @@ int Fiar::getMinPlayersAllowed()
 {
     return 2;
 }
-
-
 
 int Fiar::eval(int player)
 {

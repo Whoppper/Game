@@ -92,9 +92,10 @@ int MinMaxAlgorithm::alphabeta(QSharedPointer<GameInterface> &game, int alpha, i
         int i = 0;
         while (i < moves.size())
         {
-            moves[i]->playInGame(game);
-            int ret = alphabeta(game, alpha, beta, depth, actualDepth + 1, principaleVariationTmp, 0);
-            game->undo();
+            QSharedPointer<GameInterface> _gameTmp = game->clone();
+            moves[i]->playInGame(_gameTmp);
+            int ret = alphabeta(_gameTmp, alpha, beta, depth, actualDepth + 1, principaleVariationTmp, 0);
+            //game->undo();
             if (ret > best)
             {
                 best = ret;
@@ -118,9 +119,10 @@ int MinMaxAlgorithm::alphabeta(QSharedPointer<GameInterface> &game, int alpha, i
         int i = 0;
         while (i < moves.size())
         {
-            moves[i]->playInGame(game);
-            int ret = alphabeta(game, alpha, beta, depth, actualDepth + 1, principaleVariationTmp, 1);
-            game->undo();
+            QSharedPointer<GameInterface> _gameTmp = game->clone();
+            moves[i]->playInGame(_gameTmp);
+            int ret = alphabeta(_gameTmp, alpha, beta, depth, actualDepth + 1, principaleVariationTmp, 1);
+            //game->undo();
             if (ret < best)
             {
                 best = ret;

@@ -15,6 +15,13 @@ class UtttMove;
 class MoveInterface;
 class GameUI;
 
+enum class GameName
+{
+    None,
+    Fiar,
+    Uttt
+};
+
 class GameInterface
 {
 public:
@@ -44,8 +51,13 @@ public:
     int playerTurn() const {return _playerTurn;}
     void setPlayerTurn(int newPlayerTurn){_playerTurn = newPlayerTurn;}
 
+    static const QVector<GameName> gameList;
+    static QString GameNameToString(GameName name);
+
 protected:
     int _playerTurn;
 };
+
+
 
 #endif // GAME_H

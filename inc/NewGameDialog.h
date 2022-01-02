@@ -26,8 +26,6 @@ public:
     QSharedPointer<GameInterface> game() const;
     void resetDialog();
 
-    static const QStringList gameList;
-
 private:
 
     QVector<QSharedPointer<PlayerInterface>> _players;
@@ -46,10 +44,6 @@ private:
 private slots:
     void createGame();
     void gameSelected(const QString &gameName);
-
-signals:
-    void playersCreated(QVector<QSharedPointer<PlayerInterface>> players);
-    void gameCreated(QSharedPointer<GameInterface> game);
 
 };
 
