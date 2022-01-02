@@ -50,6 +50,7 @@ void NewGameDialog::resetDialog()
     _playerCombo.clear();
     _game.clear();
     _players.clear();
+    clearLayout(_hlayout);
     gameSelected(GameInterface::GameNameToString(GameName::Fiar));
 }
 
@@ -60,6 +61,8 @@ void NewGameDialog::gameSelected(const QString &gameName)
     if (tmpgame == nullptr)
         return ;
     clearLayout(_hlayout);
+    _playerCombo.clear();
+    _algoCombo.clear();
     int maxPlayers = tmpgame->getMaxPlayersAllowed();
     for (int i = 0; i < maxPlayers; i++)
     {

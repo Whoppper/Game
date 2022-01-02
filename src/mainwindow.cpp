@@ -61,6 +61,7 @@ void MainWindow::newGame()
        _ui->setGame(_game);
        _ui->update();
        QVector<QSharedPointer<PlayerInterface>> players = _gameDialog->players();
+       qDebug() << players.size();
        for (int i = 0; i < players.size(); i++)
        {
            players[i]->setConnection(_ui, _controller);
