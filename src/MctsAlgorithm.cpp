@@ -10,22 +10,19 @@
 
 MctsNode::MctsNode() : _visit(0), _win(0), _parent(nullptr), _game(nullptr)
 {
-
 }
 
 MctsNode::MctsNode(int player) : _visit(0), _win(0), _player(player), _parent(nullptr), _game(nullptr)
 {
-
 }
 
 MctsNode::~MctsNode()
 {
-
 }
 
 double MctsNode::getUct()
 {
-    if ( _parent== nullptr)
+    if (_parent == nullptr)
         return 0;
     if (_visit == 0)
         return INT_MAX;
@@ -98,7 +95,7 @@ void MctsAlgorithm::start()
     if (_root->_children.size() == 0)
     {
         qDebug() << "problem root no child  ";
-        return ;
+        return;
     }
     QSharedPointer<MctsNode> bestNode = _root->_children.at(0);
     for (QSharedPointer<MctsNode> &child : _root->_children)
@@ -133,7 +130,7 @@ int MctsAlgorithm::simulateRandomPlayout(QSharedPointer<GameInterface> game)
     while (!game->finish())
     {
         QVector<QSharedPointer<MoveInterface>> moves = game->getMoves();
-        moves[rand()% moves.size()]->playInGame(game);
+        moves[rand() % moves.size()]->playInGame(game);
     }
     return game->getWinner();
 }
@@ -148,14 +145,10 @@ QSharedPointer<MctsNode> MctsAlgorithm::selectPromisingNode(QSharedPointer<MctsN
     return tmpNode;
 }
 
-
 MctsAlgorithm::MctsAlgorithm(double timeAllowed) : AlgorithmInterface(timeAllowed), _root(nullptr), _rollout(0)
 {
-
 }
-
 
 MctsAlgorithm::~MctsAlgorithm()
 {
-
 }

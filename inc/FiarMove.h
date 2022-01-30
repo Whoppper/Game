@@ -15,11 +15,13 @@ public:
     virtual bool isValidMove(QSharedPointer<GameInterface> game) override;
     int col() const;
     void setCol(int col);
-    virtual QString toString() override {return QString("col: %1  ").arg(QString::number(_col));}
+    virtual QString toString() override
+    {
+        return QString("col: %1  ").arg(QString::number(_col));
+    }
 
 private:
     int _col;
 };
-
 
 #endif // FIARMOVE_H

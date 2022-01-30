@@ -17,13 +17,14 @@ public:
     int row() const;
     void setCol(int col);
     void setRow(int row);
-    virtual QString toString() override {return QString("row: %1 , col: %2  ").arg(QString::number(_row)).arg(QString::number(_col));}
+    virtual QString toString() override
+    {
+        return QString("row: %1 , col: %2  ").arg(QString::number(_row)).arg(QString::number(_col));
+    }
 
 private:
-
     int _row;
     int _col;
 };
-
 
 #endif // FIARMOVE_H

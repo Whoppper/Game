@@ -5,14 +5,12 @@
 #include <QRandomGenerator>
 #include <QDebug>
 
-
 void RandomAlgorithm::start()
 {
     QVector<QSharedPointer<MoveInterface>> moves = _game->getMoves();
     if (moves.size() == 0)
     {
         qDebug() << "Error move.size == 0";
-
     }
     //int randMove = QRandomGenerator::global()->generate() % moves.size();
     int randMove = rand() % moves.size();
@@ -21,11 +19,8 @@ void RandomAlgorithm::start()
 
 RandomAlgorithm::RandomAlgorithm(double timeAllowed) : AlgorithmInterface(timeAllowed)
 {
-
 }
-
 
 RandomAlgorithm::~RandomAlgorithm()
 {
-
 }

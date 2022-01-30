@@ -5,16 +5,13 @@
 
 UtttMove::UtttMove()
 {
-
 }
 
 UtttMove::UtttMove(int row, int col) : _row(row), _col(col)
 {
-
 }
 UtttMove::~UtttMove()
 {
-
 }
 
 bool UtttMove::isValidMove(QSharedPointer<GameInterface> game)
@@ -46,4 +43,3 @@ void UtttMove::setRow(int row)
 {
     _row = row;
 }
-

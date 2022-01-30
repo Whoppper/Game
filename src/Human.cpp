@@ -6,15 +6,12 @@
 #include "GameUI.h"
 #include <QDebug>
 
-
 Human::Human(QSharedPointer<GameInterface> game) : PlayerInterface(game), _needToPlay(false)
 {
-
 }
 
 Human::Human() : _needToPlay(false)
 {
-
 }
 
 void Human::think()
@@ -25,7 +22,7 @@ void Human::think()
 void Human::parseUserInput(HumanAction action)
 {
     if (!_needToPlay) // si c'est pas au tour du joueur
-        return ;
+        return;
     _actions.push_back(action);
     QSharedPointer<MoveInterface> newMove = _game->extractMove(_actions); // _game can remove some action in _actions
     if (newMove != Q_NULLPTR && newMove->isValidMove(_game))
@@ -33,7 +30,6 @@ void Human::parseUserInput(HumanAction action)
         _needToPlay = false;
         _actions.clear();
         emit sendMove(newMove);
-
     }
 }
 

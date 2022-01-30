@@ -15,7 +15,6 @@ class GameController : public QObject
 {
     Q_OBJECT
 public:
-
     explicit GameController(QObject *parent = nullptr);
     void setGame(QSharedPointer<GameInterface> game);
     void startGame();
@@ -29,13 +28,11 @@ public slots:
     void moveReceived(QSharedPointer<MoveInterface> move);
     void onHumanAction(HumanAction action);
 
-
 private:
     QVector<QSharedPointer<PlayerInterface>> _players;
     QSharedPointer<GameInterface> _game;
     bool _gameInProgress;
     int _playerTurn;
-
 };
 
 #endif // GAMECONTROLLER_H

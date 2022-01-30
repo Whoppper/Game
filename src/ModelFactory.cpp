@@ -12,9 +12,9 @@
 #include "Fiar.h"
 #include "Uttt.h"
 
-QSharedPointer<AlgorithmInterface > ModelFactory::createAlgoFromString(const QString &name)
+QSharedPointer<AlgorithmInterface> ModelFactory::createAlgoFromString(const QString &name)
 {
-    QSharedPointer<AlgorithmInterface > algo;
+    QSharedPointer<AlgorithmInterface> algo;
     if (name == "Random")
     {
         algo = ModelFactory::create<RandomAlgorithm>(1);
@@ -30,7 +30,7 @@ QSharedPointer<AlgorithmInterface > ModelFactory::createAlgoFromString(const QSt
     return (algo);
 }
 
-QSharedPointer<GameInterface > ModelFactory::createGameFromString(const QString &name)
+QSharedPointer<GameInterface> ModelFactory::createGameFromString(const QString &name)
 {
     QSharedPointer<GameInterface> game;
     if (name == "Fiar")

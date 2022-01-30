@@ -13,8 +13,7 @@ IA::IA()
 {
 }
 
-IA::IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm) :
-PlayerInterface(game), _algorithm(algorithm)
+IA::IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm) : PlayerInterface(game), _algorithm(algorithm)
 {
 
     _thread = new QThread();
@@ -34,7 +33,6 @@ void IA::setAlgorithm(const QSharedPointer<AlgorithmInterface> &algorithm)
 {
     _algorithm = algorithm;
     connect(_algorithm.get(), &AlgorithmInterface::resultReady, this, &IA::onResultReady);
-
 }
 
 void IA::setConnection(QSharedPointer<GameUI> ui, QSharedPointer<GameController> controller)
@@ -55,7 +53,7 @@ IA::~IA()
     if (_thread)
     {
         _thread->quit();
-        if(!_thread->wait(3000))
+        if (!_thread->wait(3000))
         {
             qDebug() << "call thread terminate";
             _thread->terminate();

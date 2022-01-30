@@ -5,16 +5,13 @@
 
 FiarMove::FiarMove()
 {
-
 }
 
 FiarMove::FiarMove(int col) : _col(col)
 {
-
 }
 FiarMove::~FiarMove()
 {
-
 }
 
 bool FiarMove::isValidMove(QSharedPointer<GameInterface> game)

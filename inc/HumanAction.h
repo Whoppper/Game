@@ -13,15 +13,12 @@ enum class ActionType
     KeyRelease
 };
 
-
 class HumanAction
 {
 public:
-
     ActionType action;
     QPoint position;
     QString data;
-
 };
 
 Q_DECLARE_METATYPE(HumanAction);

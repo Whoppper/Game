@@ -14,7 +14,6 @@ class Human : public PlayerInterface
 {
     Q_OBJECT
 public:
-
     Human();
     Human(QSharedPointer<GameInterface> game);
     virtual void think() override;
@@ -22,7 +21,6 @@ public:
     virtual void parseUserInput(HumanAction action) override;
 
 private:
-
     bool _needToPlay;
     QVector<HumanAction> _actions; // QVector si l'human doit faire plusieurs clicks pour jouer un move
 };

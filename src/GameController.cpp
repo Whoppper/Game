@@ -7,7 +7,6 @@
 
 GameController::GameController(QObject *parent) : QObject(parent), _gameInProgress(false), _playerTurn(0)
 {
-
 }
 
 void GameController::addPlayer(QSharedPointer<PlayerInterface> player)
@@ -23,8 +22,8 @@ void GameController::clear()
 {
     _gameInProgress = false;
     _players.clear();
-   // if (_game != Q_NULLPTR)
-        _game.reset();
+    // if (_game != Q_NULLPTR)
+    _game.reset();
     _playerTurn = 0;
 }
 
@@ -51,7 +50,7 @@ void GameController::onHumanAction(HumanAction action)
 {
     if (!_gameInProgress)
     {
-        return ;
+        return;
     }
     _players[_playerTurn]->parseUserInput(action);
 }
@@ -60,10 +59,10 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
 {
     if (!_gameInProgress || move == Q_NULLPTR)
     {
-        return ;
+        return;
     }
-    PlayerInterface * player = qobject_cast<PlayerInterface *>(sender());
-    if( player != Q_NULLPTR )
+    PlayerInterface *player = qobject_cast<PlayerInterface *>(sender());
+    if (player != Q_NULLPTR)
     {
         if (_players[_playerTurn] == player && move->isValidMove(_game))
         {
@@ -73,9 +72,9 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
             {
                 _gameInProgress = false;
                 qDebug() << "winner: " << _game->getWinner();
-                return ;
+                return;
             }
-           _playerTurn = _playerTurn + 1 >= _players.size() ? 0 : _playerTurn + 1;
+            _playerTurn = _playerTurn + 1 >= _players.size() ? 0 : _playerTurn + 1;
             if (_playerTurn < _players.size())
             {
                 _players[_playerTurn]->setGame(_game->clone());
@@ -87,5 +86,5 @@ void GameController::moveReceived(QSharedPointer<MoveInterface> move)
             else
                 qWarning() << "GameController::moveReceived error player turn;";
         }
-   }
+    }
 }

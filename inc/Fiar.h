@@ -12,7 +12,6 @@ class MoveInterface;
 class Fiar : public GameInterface
 {
 public:
-
     Fiar();
     virtual ~Fiar();
 
@@ -27,9 +26,10 @@ public:
     virtual int getMinPlayersAllowed() override;
     virtual void display(GameUI &ui) override;
     virtual QStringList playerAllowed() override;
-    virtual QStringList algorithmAllowedForIa() override ;
+    virtual QStringList algorithmAllowedForIa() override;
     virtual QSharedPointer<GameInterface> clone() override;
-    virtual QSharedPointer<MoveInterface> extractMove(QVector<HumanAction> &actions) override;
+    virtual QSharedPointer<MoveInterface>
+    extractMove(QVector<HumanAction> &actions) override;
 
     static constexpr int COLSIZE = 70;
 
@@ -39,7 +39,6 @@ public:
     const QVector<QVector<int>> &getBoard();
 
 private:
-
     QVector<QVector<int>> _board;
     int _winner;
     bool _finished;
@@ -47,7 +46,6 @@ private:
 
 private:
     bool isGameFinished(int lastMove);
-
 };
 
 #endif // FOURINAROW_H

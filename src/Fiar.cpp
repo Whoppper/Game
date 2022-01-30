@@ -1,9 +1,9 @@
 #include "Fiar.h"
 
-#include "ModelFactory.h"
-#include "MoveInterface.h"
 #include "FiarMove.h"
 #include "GameUI.h"
+#include "ModelFactory.h"
+#include "MoveInterface.h"
 
 #include <QDebug>
 #include <QPoint>
@@ -15,50 +15,27 @@ namespace
         int col = position.x() / Fiar::COLSIZE;
         return col;
     }
-}
+} // namespace
 
-Fiar::Fiar() :
-    _board(BOARD_HEIGHT, QVector<int>(BOARD_WIDTH, 0)) ,
-    _winner(-1) ,
-    _finished(false)
+Fiar::Fiar()
+    : _board(BOARD_HEIGHT, QVector<int>(BOARD_WIDTH, 0)), _winner(-1),
+      _finished(false)
 {
     _playerTurn = PLAYER_1;
 }
 
-Fiar::~Fiar()
-{
+Fiar::~Fiar() {}
 
-}
+int Fiar::getMinimumWidth() { return BOARD_WIDTH * COLSIZE; }
+int Fiar::getMinimumHeight() { return BOARD_HEIGHT * COLSIZE; }
 
-int Fiar::getMinimumWidth()
-{
-    return BOARD_WIDTH * COLSIZE;
-}
-int Fiar::getMinimumHeight()
-{
-    return BOARD_HEIGHT * COLSIZE;
-}
+void Fiar::display(GameUI &ui) { ui.displayGame(*this); }
 
-void Fiar::display(GameUI &ui)
-{
-    ui.displayGame(*this);
-}
+bool Fiar::finish() { return _finished; }
 
-bool Fiar::finish()
-{
-    return _finished;
-}
+const QVector<QVector<int>> &Fiar::getBoard() { return _board; }
 
-const QVector<QVector<int>> &Fiar::getBoard()
-{
-    return _board;
-}
-
-QStringList Fiar::playerAllowed()
-{
-    return {"IA", "Human"};
-}
-
+QStringList Fiar::playerAllowed() { return {"IA", "Human"}; }
 
 QStringList Fiar::algorithmAllowedForIa()
 {
@@ -107,14 +84,8 @@ QVector<QSharedPointer<MoveInterface>> Fiar::getMoves()
     return moves;
 }
 
-int Fiar::getMaxPlayersAllowed()
-{
-    return 2;
-}
-int Fiar::getMinPlayersAllowed()
-{
-    return 2;
-}
+int Fiar::getMaxPlayersAllowed() { return 2; }
+int Fiar::getMinPlayersAllowed() { return 2; }
 
 int Fiar::eval(int player)
 {
@@ -143,12 +114,12 @@ int Fiar::eval(int player)
 void Fiar::play(FiarMove &move)
 {
     if (_finished)
-        return ;
+        return;
     int col = move.col();
     if (_board[0][col] != 0)
     {
         qWarning() << "invalid move column " << col;
-        return ;
+        return;
     }
     int i = 0;
     while (i < BOARD_HEIGHT && _board[i][col] == 0)
@@ -171,11 +142,11 @@ void Fiar::play(FiarMove &move)
 void Fiar::undo()
 {
     if (_history.size() == 0)
-        return ;
+        return;
     _finished = false;
     _winner = -1;
     _playerTurn = 3 - _playerTurn;
-    int col = _history[_history.size() -1].col();
+    int col = _history[_history.size() - 1].col();
     _history.pop_back();
     int i = 0;
     while (i < BOARD_HEIGHT && _board[i][col] != _playerTurn)
@@ -185,7 +156,7 @@ void Fiar::undo()
     if (i == BOARD_HEIGHT)
     {
         qWarning() << "undo problem " << col;
-        return ;
+        return;
     }
     _board[i][col] = 0;
 }
@@ -210,10 +181,9 @@ QSharedPointer<GameInterface> Fiar::clone()
     return cpy;
 }
 
-
 bool Fiar::isGameFinished(int col)
 {
-    int totalAlign= 1;
+    int totalAlign = 1;
     int row = 0;
     while (row < BOARD_HEIGHT && _board[row][col] == 0)
         row++;
@@ -221,7 +191,7 @@ bool Fiar::isGameFinished(int col)
     // check row
     int tmprow = row;
     int tmpcol = col - 1;
-    totalAlign= 1;
+    totalAlign = 1;
     while (tmpcol > -1 && _board[row][tmpcol] == _playerTurn)
     {
         tmpcol--;
@@ -239,7 +209,7 @@ bool Fiar::isGameFinished(int col)
     // check col
     tmprow = row - 1;
     tmpcol = col;
-    totalAlign= 1;
+    totalAlign = 1;
     while (tmprow > -1 && _board[tmprow][col] == _playerTurn)
     {
         tmprow--;
@@ -257,7 +227,7 @@ bool Fiar::isGameFinished(int col)
     // check d1
     tmprow = row - 1;
     tmpcol = col - 1;
-    totalAlign= 1;
+    totalAlign = 1;
     while (tmprow > -1 && tmpcol > -1 && _board[tmprow][tmpcol] == _playerTurn)
     {
         tmprow--;
@@ -266,7 +236,8 @@ bool Fiar::isGameFinished(int col)
     }
     tmprow = row + 1;
     tmpcol = col + 1;
-    while (tmpcol < BOARD_WIDTH && tmprow < BOARD_HEIGHT && _board[tmprow][tmpcol] == _playerTurn)
+    while (tmpcol < BOARD_WIDTH && tmprow < BOARD_HEIGHT &&
+           _board[tmprow][tmpcol] == _playerTurn)
     {
         tmprow++;
         tmpcol++;
@@ -278,8 +249,9 @@ bool Fiar::isGameFinished(int col)
     // check d2
     tmprow = row - 1;
     tmpcol = col + 1;
-    totalAlign= 1;
-    while (tmprow > -1 && tmpcol < BOARD_WIDTH && _board[tmprow][tmpcol] == _playerTurn)
+    totalAlign = 1;
+    while (tmprow > -1 && tmpcol < BOARD_WIDTH &&
+           _board[tmprow][tmpcol] == _playerTurn)
     {
         tmprow--;
         tmpcol++;
@@ -287,7 +259,8 @@ bool Fiar::isGameFinished(int col)
     }
     tmprow = row + 1;
     tmpcol = col - 1;
-    while (tmpcol > -1 && tmprow < BOARD_HEIGHT && _board[tmprow][tmpcol] == _playerTurn)
+    while (tmpcol > -1 && tmprow < BOARD_HEIGHT &&
+           _board[tmprow][tmpcol] == _playerTurn)
     {
         tmprow++;
         tmpcol--;
@@ -304,15 +277,16 @@ int Fiar::getMoveValue(int row, int col, int player)
     const int multi = 2;
 
     int eval = 0;
-    int totalAlign= 1;
-    int maxAlign= 1;
+    int totalAlign = 1;
+    int maxAlign = 1;
     bool bouboulle = true;
     // val row
     int tmprow = row;
     int tmpcol = col - 1;
     maxAlign = 1;
     totalAlign = 1;
-    while (tmpcol > -1 && (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
+    while (tmpcol > -1 &&
+           (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
     {
         if (_board[row][tmpcol] == 0)
             bouboulle = false;
@@ -324,7 +298,8 @@ int Fiar::getMoveValue(int row, int col, int player)
 
     bouboulle = true;
     tmpcol = col + 1;
-    while (tmpcol < BOARD_WIDTH && (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
+    while (tmpcol < BOARD_WIDTH &&
+           (_board[row][tmpcol] == player || _board[row][tmpcol] == 0))
     {
         if (_board[row][tmpcol] == 0)
             bouboulle = false;
@@ -338,14 +313,14 @@ int Fiar::getMoveValue(int row, int col, int player)
         eval += totalAlign * multi;
     }
 
-
     // val col
     tmprow = row - 1;
     tmpcol = col;
-    totalAlign= 1;
+    totalAlign = 1;
     maxAlign = 1;
     bouboulle = true;
-    while (tmprow > -1 && (_board[tmprow][col] == player || _board[tmprow][col] == 0))
+    while (tmprow > -1 &&
+           (_board[tmprow][col] == player || _board[tmprow][col] == 0))
     {
         if (_board[tmprow][col] == 0)
             bouboulle = false;
@@ -357,7 +332,8 @@ int Fiar::getMoveValue(int row, int col, int player)
 
     tmprow = row + 1;
     bouboulle = true;
-    while (tmprow < BOARD_HEIGHT && (_board[tmprow][col] == player || _board[tmprow][col] == 0))
+    while (tmprow < BOARD_HEIGHT &&
+           (_board[tmprow][col] == player || _board[tmprow][col] == 0))
     {
         if (_board[tmprow][col] == 0)
             bouboulle = false;
@@ -374,10 +350,11 @@ int Fiar::getMoveValue(int row, int col, int player)
     // check d1
     tmprow = row - 1;
     tmpcol = col - 1;
-    totalAlign= 1;
+    totalAlign = 1;
     maxAlign = 1;
     bouboulle = true;
-    while (tmprow > -1 && tmpcol > -1 && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0) )
+    while (tmprow > -1 && tmpcol > -1 &&
+           (_board[tmprow][tmpcol] == player || _board[tmprow][tmpcol] == 0))
     {
         if (_board[tmprow][tmpcol] == 0)
             bouboulle = false;
@@ -390,7 +367,8 @@ int Fiar::getMoveValue(int row, int col, int player)
     tmprow = row + 1;
     tmpcol = col + 1;
     bouboulle = true;
-    while (tmpcol < BOARD_WIDTH && tmprow < BOARD_HEIGHT && ( _board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    while (tmpcol < BOARD_WIDTH && tmprow < BOARD_HEIGHT &&
+           (_board[tmprow][tmpcol] == player || _board[tmprow][tmpcol] == 0))
     {
         if (_board[tmprow][tmpcol] == 0)
             bouboulle = false;
@@ -408,10 +386,11 @@ int Fiar::getMoveValue(int row, int col, int player)
     // check d2
     tmprow = row - 1;
     tmpcol = col + 1;
-    totalAlign= 1;
+    totalAlign = 1;
     maxAlign = 1;
     bouboulle = true;
-    while (tmprow > -1 && tmpcol < BOARD_WIDTH && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    while (tmprow > -1 && tmpcol < BOARD_WIDTH &&
+           (_board[tmprow][tmpcol] == player || _board[tmprow][tmpcol] == 0))
     {
         if (_board[tmprow][tmpcol] == 0)
             bouboulle = false;
@@ -424,7 +403,8 @@ int Fiar::getMoveValue(int row, int col, int player)
     tmprow = row + 1;
     tmpcol = col - 1;
     bouboulle = true;
-    while (tmpcol > -1 && tmprow < BOARD_HEIGHT && (_board[tmprow][tmpcol] == player ||_board[tmprow][tmpcol] == 0))
+    while (tmpcol > -1 && tmprow < BOARD_HEIGHT &&
+           (_board[tmprow][tmpcol] == player || _board[tmprow][tmpcol] == 0))
     {
         if (_board[tmprow][tmpcol] == 0)
             bouboulle = false;
@@ -441,7 +421,3 @@ int Fiar::getMoveValue(int row, int col, int player)
 
     return eval;
 }
-
-
-
-

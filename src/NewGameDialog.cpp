@@ -13,7 +13,7 @@
 
 namespace
 {
-    void clearLayout(QBoxLayout* layout)
+    void clearLayout(QBoxLayout *layout)
     {
         QLayoutItem *child;
         while ((child = layout->takeAt(0)) != 0)
@@ -29,11 +29,11 @@ NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
     _playerWidget = new QWidget(this);
     _hlayout = new QHBoxLayout();
     _gameCombo = new QComboBox(this);
-    for (const GameName &name: GameInterface::gameList)
+    for (const GameName &name : GameInterface::gameList)
     {
         _gameCombo->addItem(GameInterface::GameNameToString(name));
     }
-    _valider= new QPushButton("OK", this);
+    _valider = new QPushButton("OK", this);
     layout()->addWidget(_gameCombo);
     _playerWidget->setLayout(_hlayout);
     layout()->addWidget(_playerWidget);
@@ -41,7 +41,6 @@ NewGameDialog::NewGameDialog(QDialog *parent) : QDialog(parent)
     connect(_valider, &QPushButton::clicked, this, &NewGameDialog::createGame);
     connect(_gameCombo, &QComboBox::currentTextChanged, this, &NewGameDialog::gameSelected);
     resize(600, 400);
-
 }
 
 void NewGameDialog::resetDialog()
@@ -54,12 +53,11 @@ void NewGameDialog::resetDialog()
     gameSelected(GameInterface::GameNameToString(GameName::Fiar));
 }
 
-
 void NewGameDialog::gameSelected(const QString &gameName)
 {
     QSharedPointer<GameInterface> tmpgame = ModelFactory::createGameFromString(gameName);
     if (tmpgame == nullptr)
-        return ;
+        return;
     clearLayout(_hlayout);
     _playerCombo.clear();
     _algoCombo.clear();
@@ -77,7 +75,7 @@ void NewGameDialog::gameSelected(const QString &gameName)
     }
 }
 
-QVector<QSharedPointer<PlayerInterface> > NewGameDialog::players() const
+QVector<QSharedPointer<PlayerInterface>> NewGameDialog::players() const
 {
     return _players;
 }
@@ -101,7 +99,7 @@ void NewGameDialog::createGame()
     {
         qDebug() << "Minimun Players: " << _game->getMinPlayersAllowed() << " " << nbPlayers;
         QDialog::reject();
-        return ;
+        return;
     }
 
     int i = 0;
@@ -111,23 +109,16 @@ void NewGameDialog::createGame()
         {
             QSharedPointer<AlgorithmInterface> algo = ModelFactory::createAlgoFromString(_algoCombo[i]->currentText());
             IA *ia = new IA(_game->clone(), algo);
-            QSharedPointer<PlayerInterface> p (ia);
+            QSharedPointer<PlayerInterface> p(ia);
             _players.push_back(p);
         }
         else if (_playerCombo[i]->currentText() == "Human")
         {
             Human *human = new Human(_game->clone());
-            QSharedPointer<PlayerInterface> p (human);
+            QSharedPointer<PlayerInterface> p(human);
             _players.push_back(p);
         }
         i++;
     }
     QDialog::accept();
 }
-
-
-
-
-
-
-

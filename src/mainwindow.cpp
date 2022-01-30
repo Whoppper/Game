@@ -18,15 +18,14 @@
 #include "GameUI.h"
 #include "NewGameDialog.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     _menuFile = Q_NULLPTR;
-    _newGame = Q_NULLPTR;;
+    _newGame = Q_NULLPTR;
     _startGame = Q_NULLPTR;
     _game = Q_NULLPTR;
-    _gameDialog = QSharedPointer<NewGameDialog> ( new NewGameDialog());
+    _gameDialog = QSharedPointer<NewGameDialog>(new NewGameDialog());
     setMinimumSize(800, 600);
 
     QWidget *centralWidget = new QWidget();
@@ -35,17 +34,16 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget->setLayout(_hlayout);
     setCentralWidget(centralWidget);
 
-    _ui = QSharedPointer<GameUI> (new GameUI(this));
-    _controller = QSharedPointer<GameController> (new GameController(this));
+    _ui = QSharedPointer<GameUI>(new GameUI(this));
+    _controller = QSharedPointer<GameController>(new GameController(this));
 
     connect(_controller.get(), &GameController::gameChanged, _ui.get(), &GameUI::needToRefresh);
-    connect( _ui.get(), &GameUI::newHumanAction, _controller.get(), &GameController::onHumanAction);
+    connect(_ui.get(), &GameUI::newHumanAction, _controller.get(), &GameController::onHumanAction);
     setMenus();
 }
 
 MainWindow::~MainWindow()
 {
-
 }
 
 void MainWindow::newGame()
@@ -56,28 +54,26 @@ void MainWindow::newGame()
     if (_gameDialog->exec() == QDialog::Accepted)
     {
         _controller->clear();
-       _game =  _gameDialog->game();
-       _controller->setGame(_game);
-       _ui->setGame(_game);
-       _ui->update();
-       QVector<QSharedPointer<PlayerInterface>> players = _gameDialog->players();
-       qDebug() << players.size();
-       for (int i = 0; i < players.size(); i++)
-       {
-           players[i]->setConnection(_ui, _controller);
-           _controller->addPlayer(players[i]);
-       }
-       _controller->startGame();
+        _game = _gameDialog->game();
+        _controller->setGame(_game);
+        _ui->setGame(_game);
+        _ui->update();
+        QVector<QSharedPointer<PlayerInterface>> players = _gameDialog->players();
+        qDebug() << players.size();
+        for (int i = 0; i < players.size(); i++)
+        {
+            players[i]->setConnection(_ui, _controller);
+            _controller->addPlayer(players[i]);
+        }
+        _controller->startGame();
     }
-
 }
-
 
 void MainWindow::setMenus()
 {
     _menuFile = new QMenu(tr("&File"), this);
     _newGame = new QAction(tr("&New"), this);
-   //_startGame = new QAction(tr("&Start"), this);
+    //_startGame = new QAction(tr("&Start"), this);
     menuBar()->addMenu(_menuFile);
     _menuFile->addAction(_newGame);
     //_menuFile->addAction(_startGame);

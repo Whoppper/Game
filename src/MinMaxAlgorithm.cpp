@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QThread>
 
-
 void MinMaxAlgorithm::start()
 {
     _start = std::chrono::high_resolution_clock::now();
@@ -46,7 +45,7 @@ void MinMaxAlgorithm::start()
             totalVisitedState += _visitedState;
             qDebug() << "Eval: " << eval << " Visited States: " << totalVisitedState;
             QString pv;
-            for (QSharedPointer<MoveInterface> &move :_principaleVariation )
+            for (QSharedPointer<MoveInterface> &move : _principaleVariation)
             {
                 if (move != nullptr)
                     pv += move->toString();
@@ -142,11 +141,8 @@ int MinMaxAlgorithm::alphabeta(QSharedPointer<GameInterface> &game, int alpha, i
 
 MinMaxAlgorithm::MinMaxAlgorithm(double timeAllowed) : AlgorithmInterface(timeAllowed)
 {
-
 }
-
 
 MinMaxAlgorithm::~MinMaxAlgorithm()
 {
-
 }

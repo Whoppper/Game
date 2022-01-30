@@ -28,7 +28,6 @@ private slots:
     void newGame();
 
 private:
-    
     void setMenus();
 
     QSharedPointer<GameInterface> _game;
@@ -37,9 +36,8 @@ private:
     QSharedPointer<NewGameDialog> _gameDialog;
 
     QMenu *_menuFile;
-    QAction* _newGame;
-    QAction* _startGame;
+    QAction *_newGame;
+    QAction *_startGame;
     QHBoxLayout *_hlayout;
-
 };
 #endif // MAINWINDOW_H

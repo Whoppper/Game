@@ -25,7 +25,6 @@ enum class GameName
 class GameInterface
 {
 public:
-
     virtual QVector<QSharedPointer<MoveInterface>> getMoves() = 0;
     virtual int eval(int player) = 0;
     virtual void undo() = 0;
@@ -36,20 +35,45 @@ public:
     virtual int getMinPlayersAllowed() = 0;
     virtual int getMinimumHeight() = 0;
     virtual int getMinimumWidth() = 0;
-    virtual QStringList playerAllowed() {return {};};
-    virtual QStringList algorithmAllowedForIa() {return {};}
+    virtual QStringList playerAllowed()
+    {
+        return {};
+    };
+    virtual QStringList algorithmAllowedForIa()
+    {
+        return {};
+    }
     virtual QSharedPointer<MoveInterface> extractMove(QVector<HumanAction> &actions) = 0;
     virtual QSharedPointer<GameInterface> clone() = 0;
 
-    virtual void play(FiarMove &move) {Q_UNUSED(move)};
-    virtual bool isLegalMove(FiarMove &move) {Q_UNUSED(move);return false;};
+    virtual void play(FiarMove &move)
+    {
+        Q_UNUSED(move)
+    };
+    virtual bool isLegalMove(FiarMove &move)
+    {
+        Q_UNUSED(move);
+        return false;
+    };
 
-    virtual void play(UtttMove &move) {Q_UNUSED(move)};
-    virtual bool isLegalMove(UtttMove &move) {Q_UNUSED(move);return false;};
+    virtual void play(UtttMove &move)
+    {
+        Q_UNUSED(move)
+    };
+    virtual bool isLegalMove(UtttMove &move)
+    {
+        Q_UNUSED(move);
+        return false;
+    };
 
-
-    int playerTurn() const {return _playerTurn;}
-    void setPlayerTurn(int newPlayerTurn){_playerTurn = newPlayerTurn;}
+    int playerTurn() const
+    {
+        return _playerTurn;
+    }
+    void setPlayerTurn(int newPlayerTurn)
+    {
+        _playerTurn = newPlayerTurn;
+    }
 
     static const QVector<GameName> gameList;
     static QString GameNameToString(GameName name);
@@ -57,7 +81,5 @@ public:
 protected:
     int _playerTurn;
 };
-
-
 
 #endif // GAME_H

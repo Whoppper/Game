@@ -24,14 +24,13 @@ namespace
             (board[0][1] == board[1][1] && board[0][1] == board[2][1] && board[0][1] > 0) ||
             (board[0][2] == board[1][2] && board[0][2] == board[2][2] && board[0][2] > 0) ||
             (board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] > 0) ||
-            (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] > 0)
-            )
+            (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] > 0))
         {
             return playerTurn;
         }
-        for (int row = 0; row < 3 ; row++)
+        for (int row = 0; row < 3; row++)
         {
-            for (int col = 0; col < 3 ; col++)
+            for (int col = 0; col < 3; col++)
             {
                 if (board[row][col] == -1)
                 {
@@ -43,19 +42,17 @@ namespace
     }
 }
 
-Uttt::Uttt() :
-    _boards(9, QVector<QVector<int>>(3, QVector<int>(3, -1))) ,
-    _board(3, QVector<int>(3, -1)) ,
-    _winner(-1) ,
-    _finished(false),
-    _nextboard(-1)
+Uttt::Uttt() : _boards(9, QVector<QVector<int>>(3, QVector<int>(3, -1))),
+               _board(3, QVector<int>(3, -1)),
+               _winner(-1),
+               _finished(false),
+               _nextboard(-1)
 {
     _playerTurn = PLAYER_1;
 }
 
 Uttt::~Uttt()
 {
-
 }
 
 int Uttt::getMinimumWidth()
@@ -77,12 +74,10 @@ bool Uttt::finish()
     return _finished;
 }
 
-
 QStringList Uttt::playerAllowed()
 {
     return {"IA", "Human"};
 }
-
 
 QStringList Uttt::algorithmAllowedForIa()
 {
@@ -115,15 +110,15 @@ bool Uttt::isLegalMove(UtttMove &move)
     if (_finished || col > 8 || row > 8 || col < 0 || row < 0)
         return false;
     int utttrow = (row / 3);
-    int utttcol = (col / 3 );
+    int utttcol = (col / 3);
     int tttrow = (row % 3);
-    int tttcol = (col % 3 );
+    int tttcol = (col % 3);
     int boardIndex = (row / 3) * 3 + col / 3;
-    if (boardIndex == _nextboard || (_nextboard == -1 && _board[utttrow ][utttcol ] == -1))
+    if (boardIndex == _nextboard || (_nextboard == -1 && _board[utttrow][utttcol] == -1))
     {
         if (_boards[boardIndex][tttrow][tttcol] != -1)
         {
-             return false;
+            return false;
         }
         return true;
     }
@@ -139,15 +134,15 @@ bool Uttt::isLegal(int row, int col)
     if (_finished || col > 8 || row > 8 || col < 0 || row < 0)
         return false;
     int utttrow = (row / 3);
-    int utttcol = (col / 3 );
+    int utttcol = (col / 3);
     int tttrow = (row % 3);
-    int tttcol = (col % 3 );
+    int tttcol = (col % 3);
     int boardIndex = (row / 3) * 3 + col / 3;
-    if (boardIndex == _nextboard || (_nextboard == -1 && _board[utttrow ][utttcol ] == -1))
+    if (boardIndex == _nextboard || (_nextboard == -1 && _board[utttrow][utttcol] == -1))
     {
         if (_boards[boardIndex][tttrow][tttcol] != -1)
         {
-             return false;
+            return false;
         }
         return true;
     }
@@ -158,22 +153,22 @@ bool Uttt::isLegal(int row, int col)
     return true;
 }
 
-const QVector<QVector<QVector<int> > > &Uttt::boards() const
+const QVector<QVector<QVector<int>>> &Uttt::boards() const
 {
     return _boards;
 }
 
-void Uttt::setBoards(const QVector<QVector<QVector<int> > > &newBoards)
+void Uttt::setBoards(const QVector<QVector<QVector<int>>> &newBoards)
 {
     _boards = newBoards;
 }
 
-const QVector<QVector<int> > &Uttt::board() const
+const QVector<QVector<int>> &Uttt::board() const
 {
     return _board;
 }
 
-void Uttt::setBoard(const QVector<QVector<int> > &newBoard)
+void Uttt::setBoard(const QVector<QVector<int>> &newBoard)
 {
     _board = newBoard;
 }
@@ -185,15 +180,15 @@ QVector<QSharedPointer<MoveInterface>> Uttt::getMoves()
         return moves;
     if (_nextboard == -1)
     {
-        for (int i = 0; i < _boards.size() ; i++)
+        for (int i = 0; i < _boards.size(); i++)
         {
             int utttrow = (i / 3);
-            int utttcol = (i % 3 );
+            int utttcol = (i % 3);
             if (_board[utttrow][utttcol] != -1)
                 continue;
-            for (int row = 0; row < 3 ; row++)
+            for (int row = 0; row < 3; row++)
             {
-                for (int col = 0; col < 3 ; col++)
+                for (int col = 0; col < 3; col++)
                 {
                     if (_boards[i][row][col] == -1)
                     {
@@ -209,10 +204,10 @@ QVector<QSharedPointer<MoveInterface>> Uttt::getMoves()
     else
     {
         int utttrow = (_nextboard / 3);
-        int utttcol = (_nextboard % 3 );
-        for (int row = 0; row < 3 ; row++)
+        int utttcol = (_nextboard % 3);
+        for (int row = 0; row < 3; row++)
         {
-            for (int col = 0; col < 3 ; col++)
+            for (int col = 0; col < 3; col++)
             {
                 if (_boards[_nextboard][row][col] == -1)
                 {
@@ -244,23 +239,23 @@ int Uttt::eval(int player)
 void Uttt::play(UtttMove &move)
 {
     if (_finished)
-        return ;
+        return;
     int col = move.col();
     int row = move.row();
     int utttrow = (row / 3);
-    int utttcol = (col / 3 );
+    int utttcol = (col / 3);
     int tttrow = (row % 3);
-    int tttcol = (col % 3 );
+    int tttcol = (col % 3);
 
     if (!isLegalMove(move))
     {
-        qWarning() << "invalid move " << row <<" " << col ;
+        qWarning() << "invalid move " << row << " " << col;
 
-        return ;
+        return;
     }
     _boards[utttrow * 3 + utttcol][tttrow][tttcol] = _playerTurn;
     _nextboard = tttrow * 3 + tttcol;
-    if (checkResult (_boards[_nextboard], _playerTurn) > -1)
+    if (checkResult(_boards[_nextboard], _playerTurn) > -1)
     {
         _nextboard = -1;
     }
@@ -273,7 +268,6 @@ void Uttt::play(UtttMove &move)
             _finished = true;
             _winner = checkResult(_board, _playerTurn);
         }
-
     }
 
     _playerTurn = 3 - _playerTurn;
@@ -323,5 +317,3 @@ QSharedPointer<GameInterface> Uttt::clone()
     QSharedPointer<GameInterface> cpy(uttt);
     return cpy;
 }
-
-

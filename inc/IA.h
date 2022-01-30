@@ -14,7 +14,6 @@ class IA : public PlayerInterface
 {
     Q_OBJECT
 public:
-
     virtual ~IA();
     IA();
     IA(QSharedPointer<GameInterface> game, QSharedPointer<AlgorithmInterface> algorithm);
@@ -28,16 +27,10 @@ signals:
 private slots:
     void onResultReady(MovePtr move);
 
-
-
-
-
 private:
     QThread *_thread;
     QSharedPointer<AlgorithmInterface> _algorithm;
-
 };
-
 
 //Q_DECLARE_METATYPE(QSharedPointer<MoveInterface>);
 

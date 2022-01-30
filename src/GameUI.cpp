@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QMouseEvent>
 
-
 GameUI::GameUI(QWidget *parent, QSharedPointer<GameInterface> game) : QWidget(parent), _game(game)
 {
     if (_game != Q_NULLPTR)
@@ -15,7 +14,6 @@ GameUI::GameUI(QWidget *parent, QSharedPointer<GameInterface> game) : QWidget(pa
         setMaximumSize(QSize(_game->getMinimumWidth(), _game->getMinimumHeight()));
     }
 }
-
 
 void GameUI::paintEvent(QPaintEvent *event)
 {
@@ -60,7 +58,7 @@ void GameUI::displayGame(Fiar &fiar)
             painter.setBrush(QBrush(colors[board[row][col]]));
             int x = Fiar::COLSIZE / 2 + Fiar::COLSIZE * col;
             int y = Fiar::COLSIZE / 2 + Fiar::COLSIZE * row;
-            painter.drawEllipse(QPointF(x,y), Fiar::COLSIZE / 2, Fiar::COLSIZE / 2);
+            painter.drawEllipse(QPointF(x, y), Fiar::COLSIZE / 2, Fiar::COLSIZE / 2);
         }
     }
     painter.end();
@@ -97,11 +95,11 @@ void GameUI::displayGame(Uttt &uttt)
             if (board[urow][ucol] == 1)
             {
                 painter.drawLine(ucol * 180, urow * 180, (1 + ucol) * 180, (1 + urow) * 180);
-                painter.drawLine(ucol * 180 + 180, urow * 180, (ucol) * 180, (1 + urow) * 180);
+                painter.drawLine(ucol * 180 + 180, urow * 180, (ucol)*180, (1 + urow) * 180);
             }
             else
             {
-                painter.drawEllipse(QPointF(ucol * 180 + 90 ,urow * 180 + 90), 90, 90);
+                painter.drawEllipse(QPointF(ucol * 180 + 90, urow * 180 + 90), 90, 90);
             }
             i++;
             continue;
@@ -131,12 +129,13 @@ void GameUI::displayGame(Uttt &uttt)
                     painter.setPen(pen);
                     if (ttt[row][col] == 1)
                     {
-                        painter.drawLine(topLeftCPos, topLeftRPos, topLeftCPos + 60, topLeftRPos + 60);;
+                        painter.drawLine(topLeftCPos, topLeftRPos, topLeftCPos + 60, topLeftRPos + 60);
+                        ;
                         painter.drawLine(topLeftCPos + 60, topLeftRPos, topLeftCPos, topLeftRPos + 60);
                     }
                     else
                     {
-                        painter.drawEllipse(QPointF(topLeftCPos + 30 ,topLeftRPos + 30), 30, 30);
+                        painter.drawEllipse(QPointF(topLeftCPos + 30, topLeftRPos + 30), 30, 30);
                     }
                 }
                 if (uttt.isLegal(urow * 3 + row, ucol * 3 + col))
@@ -144,7 +143,7 @@ void GameUI::displayGame(Uttt &uttt)
                     pen = QPen(Qt::green);
                     pen.setWidth(2);
                     painter.setPen(pen);
-                    painter.drawEllipse(QPointF(topLeftCPos + 30 ,topLeftRPos + 30), 3, 3);
+                    painter.drawEllipse(QPointF(topLeftCPos + 30, topLeftRPos + 30), 3, 3);
                 }
             }
         }

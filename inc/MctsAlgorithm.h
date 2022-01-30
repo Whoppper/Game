@@ -7,7 +7,6 @@
 class MoveInterface;
 class GameInterface;
 
-
 class MctsNode
 {
 public:
@@ -46,8 +45,6 @@ private:
     int _playerNumber;
     QSharedPointer<MctsNode> _root;
     int _rollout;
-
-
 };
 
 #endif // MCTSALGORITHM_H

@@ -14,11 +14,6 @@ public:
     RandomAlgorithm(double timeAllowed);
     virtual ~RandomAlgorithm();
     virtual void start() override;
-
 };
-
-
-
-
 
 #endif // RANDOMALGORITHM_H
