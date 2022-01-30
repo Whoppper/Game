@@ -2,6 +2,7 @@
 #define HUMAN_H
 
 #include "PlayerInterface.h"
+#include <QVector>
 #include <QSharedPointer>
 #include <QPoint>
 #include "HumanAction.h"

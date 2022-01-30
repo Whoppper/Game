@@ -73,3 +73,6 @@ Thumbs.db
 
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+.vscode/launch.json
+Game
+moc_predefs.h
